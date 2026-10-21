@@ -28,32 +28,50 @@ function openCard() {
 }
 document.body.style.overflow = 'hidden';
 
-/* ============ HOA RƠI ============ */
+/* ============ HOA RƠI (bông hoa 4 cánh) ============ */
 (function createPetals() {
   const wrap = document.getElementById('petals');
-  const colors = ['#e8d48b', '#c9a227', '#95d5b2', '#ffffff', '#d9bf6a'];
-  const count = window.innerWidth < 640 ? 14 : 26;
+  // Bảng màu: cánh hoa + nhụy
+  const petalsPalette = [
+    { petal: '#95d5b2', center: '#f5e9c8' }, // xanh lá nhạt
+    { petal: '#e8d48b', center: '#c9a227' }, // vàng kem
+    { petal: '#ffffff', center: '#e8d48b' }, // trắng
+    { petal: '#c9a227', center: '#fff6d8' }, // vàng đậm
+    { petal: '#a7e0c0', center: '#f5e9c8' }, // xanh mint
+    { petal: '#f5e9c8', center: '#c9a227' }, // kem
+  ];
+  const count = window.innerWidth < 640 ? 16 : 30;
+
+  // SVG bông hoa 4 cánh: 4 ellipse xoay quanh tâm + nhụy tròn
+  function flowerSVG(size, petal, center) {
+    return `
+      <svg width="${size}" height="${size}" viewBox="0 0 40 40" opacity="0.92">
+        <g fill="${petal}" stroke="${center}" stroke-width="0.6">
+          <ellipse cx="20" cy="9"  rx="6" ry="9"/>
+          <ellipse cx="31" cy="20" rx="9" ry="6"/>
+          <ellipse cx="20" cy="31" rx="6" ry="9"/>
+          <ellipse cx="9"  cy="20" rx="9" ry="6"/>
+        </g>
+        <circle cx="20" cy="20" r="3.6" fill="${center}"/>
+      </svg>`;
+  }
 
   for (let i = 0; i < count; i++) {
     const petal = document.createElement('div');
     petal.className = 'petal';
-    const size = 10 + Math.random() * 14;
-    const dur = 8 + Math.random() * 8;
-    const delay = Math.random() * -15;
-    const drift = (Math.random() - 0.5) * 220;
-    const spin = 360 + Math.random() * 720;
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = 14 + Math.random() * 16;
+    const dur = 9 + Math.random() * 9;
+    const delay = Math.random() * -18;
+    const drift = (Math.random() - 0.5) * 260;
+    const spin = 360 + Math.random() * 1080;
+    const c = petalsPalette[Math.floor(Math.random() * petalsPalette.length)];
 
     petal.style.left = Math.random() * 100 + '%';
     petal.style.animationDuration = dur + 's';
     petal.style.animationDelay = delay + 's';
     petal.style.setProperty('--drift', drift + 'px');
     petal.style.setProperty('--spin', spin + 'deg');
-    petal.innerHTML = `
-      <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}" opacity="0.9">
-        <path d="M12 2c2 3 4 5 4 8a4 4 0 0 1-8 0c0-3 2-5 4-8z"/>
-        <path d="M12 22c-1.5-2-3-3.5-3-5.5a3 3 0 0 1 6 0c0 2-1.5 3.5-3 5.5z" opacity="0.6"/>
-      </svg>`;
+    petal.innerHTML = flowerSVG(size, c.petal, c.center);
     wrap.appendChild(petal);
   }
 })();
