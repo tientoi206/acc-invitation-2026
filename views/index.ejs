@@ -15,9 +15,40 @@
 </head>
 <body>
 
-<!-- ============ MÀN HÌNH MỞ THIỆP ============ -->
+<!-- ============ MÀN HÌNH MỞ THIỆP: CỬA HOA ============ -->
 <div id="opening">
-  <div class="op-frame">
+  <div class="op-backdrop"><div class="backdrop-glow"></div></div>
+
+  <!-- Hai cánh cửa -->
+  <div class="door" id="door">
+    <div class="door-leaf door-left">
+      <div class="door-panel"></div>
+      <div class="door-panel inner"></div>
+      <div class="door-crest">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="32" cy="32" r="16"/>
+          <path d="M32 16v32M16 32h32" opacity=".5"/>
+          <circle cx="32" cy="32" r="5" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <span class="door-handle"></span>
+    </div>
+    <div class="door-leaf door-right">
+      <div class="door-panel"></div>
+      <div class="door-panel inner"></div>
+      <div class="door-crest">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="32" cy="32" r="16"/>
+          <path d="M32 16v32M16 32h32" opacity=".5"/>
+          <circle cx="32" cy="32" r="5" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <span class="door-handle"></span>
+    </div>
+  </div>
+
+  <!-- Nội dung thiệp trên cửa -->
+  <div class="op-frame" id="opFrame">
     <div class="op-ornament">✦ ❦ ✦</div>
     <div class="op-small">Trân trọng kính mời</div>
     <h1 class="op-title">
@@ -27,7 +58,29 @@
     <div class="op-divider"></div>
     <div class="op-date"><%= data.event.dateDisplay %></div>
     <button class="btn-open" onclick="openCard()">Mở Thiệp</button>
-    <div class="op-hint">Chạm để bắt đầu</div>
+  </div>
+
+  <!-- Hoa leo 4 góc + hoa chuyển động -->
+  <div class="vines" aria-hidden="true">
+    <div class="vine vine-tl"></div>
+    <div class="vine vine-tr"></div>
+    <div class="vine vine-bl"></div>
+    <div class="vine vine-br"></div>
+    <div class="bloom bloom-1"></div>
+    <div class="bloom bloom-2"></div>
+    <div class="bloom bloom-3"></div>
+    <div class="bloom bloom-4"></div>
+    <div class="bloom bloom-5"></div>
+    <div class="bloom bloom-6"></div>
+    <div class="bloom bloom-7"></div>
+    <div class="bloom bloom-8"></div>
+  </div>
+
+  <!-- Vòm hoa phía trên -->
+  <div class="arch-flowers" aria-hidden="true">
+    <span class="af"></span><span class="af"></span><span class="af"></span>
+    <span class="af"></span><span class="af"></span><span class="af"></span>
+    <span class="af"></span><span class="af"></span><span class="af"></span>
   </div>
 </div>
 

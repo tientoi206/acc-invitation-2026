@@ -1,12 +1,30 @@
-/* ============ MỞ THIỆP ============ */
+/* ============ MỞ THIỆP (CỬA HOA) ============ */
+let isOpening = false;
 function openCard() {
+  if (isOpening) return;
+  isOpening = true;
+
   const opening = document.getElementById('opening');
-  opening.classList.add('hide');
-  document.body.style.overflow = 'auto';
-  setTimeout(() => { opening.style.display = 'none'; }, 1000);
-  initReveal();
-  startCountdown();
+  const opFrame = document.getElementById('opFrame');
+
+  // 1) Ẩn nội dung thiệp + mở hai cánh cửa
+  opening.classList.add('is-opening');
+  if (opFrame) opFrame.style.pointerEvents = 'none';
+
+  // 2) Bắt đầu nhạc + countdown + reveal song song
   tryPlayMusic();
+  document.body.style.overflow = 'auto';
+  startCountdown();
+
+  // 3) Sau khi cửa mở xong -> fade cả màn hình rồi ẩn hẳn
+  setTimeout(() => {
+    opening.classList.add('hide');
+    initReveal();
+  }, 1100);
+
+  setTimeout(() => {
+    opening.style.display = 'none';
+  }, 2200);
 }
 document.body.style.overflow = 'hidden';
 
