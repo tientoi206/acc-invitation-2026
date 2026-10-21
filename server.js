@@ -22,10 +22,13 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
   fallthrough: true
 }));
 
-// Lấy version = thời điểm sửa file (dạng số) để chống cache khi deploy
+// Lấy version = hash nội dung file (md5) để chống cache khi deploy.
+// Dùng hash (không phải mtime) vì trên Vercel mtime file không đổi theo commit.
+const crypto = require('crypto');
 function assetVersion(relPath) {
   try {
-    return Math.floor(fs.statSync(path.join(__dirname, relPath)).mtimeMs).toString(36);
+    const buf = fs.readFileSync(path.join(__dirname, relPath));
+    return crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
   } catch (e) {
     return Date.now().toString(36);
   }
