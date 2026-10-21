@@ -1,0 +1,39 @@
+{
+  "event": {
+    "name": "Lễ Tri Ân",
+    "nameShort": "ACC 2026",
+    "organizer": "Sinh Viên Công Giáo Thánh Linh",
+    "organizerShort": "SVCG Thánh Linh",
+    "date": "2026-11-29T07:15:00+07:00",
+    "dateDisplay": "Chúa Nhật · 29 · 11 · 2026",
+    "dateDetail": "Chúa Nhật I Mùa Vọng",
+    "time": "7:15",
+    "timeNote": "Đón tiếp từ 7:00",
+    "location": "Dòng Phanxicô",
+    "locationNote": "Xem bản đồ bên dưới",
+    "mapUrl": "https://maps.google.com/?q=D%C3%B2ng+Phanxic%C3%B4",
+    "mapAddress": "Dòng Phanxicô — địa chỉ chi tiết sẽ cập nhật"
+  },
+  "features": {
+    "musicFile": "",
+    "openLetter": ""
+  },
+  "invitation": {
+    "lead": "Kính gửi Quý Thầy Cô, Quý Phụ Huynh và Các Bạn Sinh Viên,",
+    "paragraphs": [
+      "Trong bầu khí thiêng liêng của Chúa Thánh Thần, Sinh Viên Công Giáo Thánh Linh hân hạnh được gửi đến Quý vị lời mời tham dự Lễ Tri Ân ACC 2026 — một buổi lễ để cùng nhau tạ ơn Thiên Chúa vì một năm hồng ân, và để tri ân những người đã đồng hành, nâng đỡ chúng con trên hành trình đức tin và tri thức.",
+      "Sự hiện diện của Quý vị là niềm vinh hạnh và là món quà quý giá dành cho cộng đoàn chúng con. Kính mong Quý vị sắp xếp thời gian để cùng chia sẻ niềm vui trong ngày trọng đại này."
+    ]
+  },
+  "thanks": {
+    "quote": "Lạy Chúa Thánh Thần, xin Ngài ngự đến và đổi mới tâm hồn chúng con, để mỗi ngày chúng con biết sống trọn vẹn ơn gọi và sứ mạng mà Ngài đã trao ban.",
+    "signature": "Sinh Viên Công Giáo Thánh Linh",
+    "role": "Ban Tổ chức Lễ Tri Ân ACC 2026"
+  },
+  "gallery": [
+    { "image": "", "caption": "Khoảnh khắc 1" },
+    { "image": "", "caption": "Khoảnh khắc 2" },
+    { "image": "", "caption": "Khoảnh khắc 3" },
+    { "image": "", "caption": "Khoảnh khắc 4" }
+  ]
+}
