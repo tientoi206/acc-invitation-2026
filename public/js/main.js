@@ -1,30 +1,28 @@
-/* ============ MỞ THIỆP (CỬA HOA) ============ */
+/* ============ MỞ THIỆP (CỔNG RỪNG) ============ */
 let isOpening = false;
 function openCard() {
   if (isOpening) return;
   isOpening = true;
 
   const opening = document.getElementById('opening');
-  const opFrame = document.getElementById('opFrame');
 
-  // 1) Ẩn nội dung thiệp + mở hai cánh cửa
+  // 1) Mở hai cánh cổng + nội dung bay đi
   opening.classList.add('is-opening');
-  if (opFrame) opFrame.style.pointerEvents = 'none';
 
-  // 2) Bắt đầu nhạc + countdown + reveal song song
+  // 2) Nhạc + countdown + scroll
   tryPlayMusic();
   document.body.style.overflow = 'auto';
   startCountdown();
 
-  // 3) Sau khi cửa mở xong -> fade cả màn hình rồi ẩn hẳn
+  // 3) Fade & ẩn toàn màn hình
   setTimeout(() => {
     opening.classList.add('hide');
     initReveal();
-  }, 1100);
+  }, 1200);
 
   setTimeout(() => {
     opening.style.display = 'none';
-  }, 2200);
+  }, 2300);
 }
 document.body.style.overflow = 'hidden';
 
@@ -73,6 +71,51 @@ document.body.style.overflow = 'hidden';
     petal.style.setProperty('--spin', spin + 'deg');
     petal.innerHTML = flowerSVG(size, c.petal, c.center);
     wrap.appendChild(petal);
+  }
+})();
+
+/* ============ LÁ BAY + ĐOM ĐÓM TRONG RỪNG ============ */
+(function createForest() {
+  const opening = document.getElementById('opening');
+  if (!opening) return;
+
+  // Lá bay
+  const leafWrap = opening.querySelector('.leaves');
+  if (leafWrap) {
+    const leafCount = window.innerWidth < 640 ? 10 : 20;
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement('div');
+      leaf.className = 'leaf';
+      const dur = 8 + Math.random() * 10;
+      const delay = Math.random() * -18;
+      const lx = (Math.random() - 0.5) * 320;
+      const lr = 360 + Math.random() * 900;
+      leaf.style.left = Math.random() * 100 + '%';
+      leaf.style.width = leaf.style.height = (10 + Math.random() * 14) + 'px';
+      leaf.style.animationDuration = dur + 's';
+      leaf.style.animationDelay = delay + 's';
+      leaf.style.setProperty('--lx', lx + 'px');
+      leaf.style.setProperty('--lr', lr + 'deg');
+      leaf.style.opacity = (0.4 + Math.random() * 0.4).toFixed(2);
+      leafWrap.appendChild(leaf);
+    }
+  }
+
+  // Đom đóm
+  const ffWrap = opening.querySelector('.fireflies');
+  if (ffWrap) {
+    const ffCount = window.innerWidth < 640 ? 12 : 24;
+    for (let i = 0; i < ffCount; i++) {
+      const ff = document.createElement('div');
+      ff.className = 'ff';
+      ff.style.left = Math.random() * 100 + '%';
+      ff.style.top = (20 + Math.random() * 75) + '%';
+      ff.style.animationDuration = (3 + Math.random() * 4) + 's';
+      ff.style.animationDelay = (Math.random() * 5) + 's';
+      const sz = 3 + Math.random() * 4;
+      ff.style.width = ff.style.height = sz + 'px';
+      ffWrap.appendChild(ff);
+    }
   }
 })();
 
