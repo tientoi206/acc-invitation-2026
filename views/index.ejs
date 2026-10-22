@@ -120,89 +120,133 @@
     </svg>
   </div>
 
-  <!-- ===== CỔNG (SVG vẽ tay) ===== -->
+  <!-- ===== CỔNG (SVG vẽ chi tiết) ===== -->
   <div class="gate3d" id="gate3d" title="Chạm để mở thiệp" role="button" tabindex="0" aria-label="Mở thiệp">
     <svg class="gate-svg" viewBox="0 0 420 580" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
       <defs>
         <linearGradient id="gStone" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#2a4436"/>
-          <stop offset="0.5" stop-color="#3e5f4a"/>
-          <stop offset="1" stop-color="#243c2e"/>
+          <stop offset="0" stop-color="#5c7a63"/>
+          <stop offset="0.35" stop-color="#7a967d"/>
+          <stop offset="0.6" stop-color="#8aa588"/>
+          <stop offset="1" stop-color="#4f6b55"/>
         </linearGradient>
-        <linearGradient id="gStoneDark" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#20362a"/>
-          <stop offset="1" stop-color="#152619"/>
+        <linearGradient id="gStoneTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#93ad8f"/>
+          <stop offset="1" stop-color="#5f7d63"/>
         </linearGradient>
         <linearGradient id="gVine" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#3f7d57"/>
-          <stop offset="1" stop-color="#234d36"/>
+          <stop offset="0" stop-color="#5aa06e"/>
+          <stop offset="1" stop-color="#2f6e46"/>
         </linearGradient>
-        <radialGradient id="gInner" cx="50%" cy="45%" r="60%">
-          <stop offset="0" stop-color="#0a1f14"/>
-          <stop offset="1" stop-color="#020a05"/>
+        <radialGradient id="gInner" cx="50%" cy="42%" r="65%">
+          <stop offset="0" stop-color="#2a4a32"/>
+          <stop offset="0.6" stop-color="#16301f"/>
+          <stop offset="1" stop-color="#08160e"/>
+        </radialGradient>
+        <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f5e9c8"/>
+          <stop offset="1" stop-color="#c9a227"/>
+        </linearGradient>
+        <!-- Bóng đổ mềm -->
+        <radialGradient id="gShadow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#020a05" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#020a05" stop-opacity="0"/>
         </radialGradient>
       </defs>
 
-      <!-- Bóng đổ chân cổng -->
-      <ellipse cx="210" cy="566" rx="180" ry="22" fill="#020a05" opacity="0.6"/>
+      <!-- Bóng đổ mặt đất -->
+      <ellipse cx="210" cy="566" rx="200" ry="26" fill="url(#gShadow)"/>
 
-      <!-- Trụ trái -->
-      <path d="M30,580 L30,220 Q30,70 210,70 Q390,70 390,220 L390,580 L340,580 L340,225 Q340,110 210,110 Q80,110 80,225 L80,580 Z"
-            fill="url(#gStone)" stroke="#132418" stroke-width="2"/>
-      <!-- Trụ phải (đã gộp trong path trên, thêm viền đá) -->
-      <g stroke="rgba(149,213,178,.16)" stroke-width="1.6" fill="none">
-        <line x1="46" y1="240" x2="46" y2="580"/>
-        <line x1="58" y1="240" x2="58" y2="580"/>
-        <line x1="362" y1="240" x2="362" y2="580"/>
-        <line x1="374" y1="240" x2="374" y2="580"/>
+      <!-- === THÂN CỔNG: trụ + vòm === -->
+      <!-- Khối đá nền (sáng hơn) -->
+      <path d="M28,580 L28,215 Q28,60 210,60 Q392,60 392,215 L392,580 L44,580 L44,222 Q44,76 210,76 Q376,76 376,222 L376,580 Z"
+            fill="url(#gStone)" stroke="#3a5340" stroke-width="2"/>
+      <!-- Đỉnh vòm sáng (highlight) -->
+      <path d="M44,222 Q44,76 210,76 Q376,76 376,222" fill="none" stroke="url(#gStoneTop)" stroke-width="8" opacity="0.9"/>
+
+      <!-- Vân đá trụ trái -->
+      <g stroke="#415a47" stroke-width="1.2" opacity="0.55" fill="none">
+        <line x1="30" y1="269.0" x2="80" y2="269.0"/><line x1="30" y1="303.0" x2="80" y2="303.0"/><line x1="30" y1="337.0" x2="80" y2="337.0"/><line x1="30" y1="371.0" x2="80" y2="371.0"/><line x1="30" y1="405.0" x2="80" y2="405.0"/><line x1="30" y1="439.0" x2="80" y2="439.0"/><line x1="30" y1="473.0" x2="80" y2="473.0"/><line x1="30" y1="507.0" x2="80" y2="507.0"/><line x1="30" y1="541.0" x2="80" y2="541.0"/><line x1="55.0" y1="235.0" x2="55.0" y2="269.0"/><line x1="42.5" y1="269.0" x2="42.5" y2="303.0"/><line x1="67.5" y1="269.0" x2="67.5" y2="303.0"/><line x1="55.0" y1="303.0" x2="55.0" y2="337.0"/><line x1="42.5" y1="337.0" x2="42.5" y2="371.0"/><line x1="67.5" y1="337.0" x2="67.5" y2="371.0"/><line x1="55.0" y1="371.0" x2="55.0" y2="405.0"/><line x1="42.5" y1="405.0" x2="42.5" y2="439.0"/><line x1="67.5" y1="405.0" x2="67.5" y2="439.0"/><line x1="55.0" y1="439.0" x2="55.0" y2="473.0"/><line x1="42.5" y1="473.0" x2="42.5" y2="507.0"/><line x1="67.5" y1="473.0" x2="67.5" y2="507.0"/><line x1="55.0" y1="507.0" x2="55.0" y2="541.0"/><line x1="42.5" y1="541.0" x2="42.5" y2="575.0"/><line x1="67.5" y1="541.0" x2="67.5" y2="575.0"/>
+      </g>
+      <!-- Vân đá trụ phải -->
+      <g stroke="#415a47" stroke-width="1.2" opacity="0.55" fill="none">
+        <line x1="340" y1="269.0" x2="390" y2="269.0"/><line x1="340" y1="303.0" x2="390" y2="303.0"/><line x1="340" y1="337.0" x2="390" y2="337.0"/><line x1="340" y1="371.0" x2="390" y2="371.0"/><line x1="340" y1="405.0" x2="390" y2="405.0"/><line x1="340" y1="439.0" x2="390" y2="439.0"/><line x1="340" y1="473.0" x2="390" y2="473.0"/><line x1="340" y1="507.0" x2="390" y2="507.0"/><line x1="340" y1="541.0" x2="390" y2="541.0"/><line x1="365.0" y1="235.0" x2="365.0" y2="269.0"/><line x1="352.5" y1="269.0" x2="352.5" y2="303.0"/><line x1="377.5" y1="269.0" x2="377.5" y2="303.0"/><line x1="365.0" y1="303.0" x2="365.0" y2="337.0"/><line x1="352.5" y1="337.0" x2="352.5" y2="371.0"/><line x1="377.5" y1="337.0" x2="377.5" y2="371.0"/><line x1="365.0" y1="371.0" x2="365.0" y2="405.0"/><line x1="352.5" y1="405.0" x2="352.5" y2="439.0"/><line x1="377.5" y1="405.0" x2="377.5" y2="439.0"/><line x1="365.0" y1="439.0" x2="365.0" y2="473.0"/><line x1="352.5" y1="473.0" x2="352.5" y2="507.0"/><line x1="377.5" y1="473.0" x2="377.5" y2="507.0"/><line x1="365.0" y1="507.0" x2="365.0" y2="541.0"/><line x1="352.5" y1="541.0" x2="352.5" y2="575.0"/><line x1="377.5" y1="541.0" x2="377.5" y2="575.0"/>
       </g>
 
-      <!-- Khoảng tối bên trong cổng -->
-      <path d="M80,580 L80,225 Q80,110 210,110 Q340,110 340,225 L340,580 Z" fill="url(#gInner)"/>
+      <!-- === Khoảng tối bên trong cổng === -->
+      <path d="M82,580 L82,222 Q82,112 210,112 Q338,112 338,222 L338,580 Z" fill="url(#gInner)"/>
 
-      <!-- Viền vòm trang trí -->
-      <path d="M84,225 Q84,116 210,116 Q336,116 336,225" stroke="rgba(232,212,139,.4)" stroke-width="3" fill="none"/>
-      <path d="M92,225 Q92,124 210,124 Q328,124 328,225" stroke="rgba(232,212,139,.18)" stroke-width="2" fill="none"/>
+      <!-- Viền vòm vàng trang trí trong -->
+      <path d="M86,222 Q86,118 210,118 Q334,118 334,222" stroke="url(#gGold)" stroke-width="3.5" fill="none" opacity="0.85"/>
+      <path d="M96,222 Q96,128 210,128 Q324,128 324,222" stroke="rgba(232,212,139,.3)" stroke-width="2" fill="none"/>
 
-      <!-- Đá khắc chữ nhật trên trụ -->
-      <rect x="34" y="300" width="40" height="140" rx="4" fill="none" stroke="rgba(149,213,178,.22)" stroke-width="1.5"/>
-      <rect x="346" y="300" width="40" height="140" rx="4" fill="none" stroke="rgba(149,213,178,.22)" stroke-width="1.5"/>
+      <!-- === Đá chóp trụ (đế + đỉnh) === -->
+      <rect x="24" y="210" width="12" height="360" fill="#6b8670" opacity="0.6"/>
+      <rect x="384" y="210" width="12" height="360" fill="#5a7560" opacity="0.6"/>
+      <!-- Đế chân trụ -->
+      <rect x="22" y="556" width="60" height="26" rx="3" fill="#4f6b55" stroke="#3a5340" stroke-width="1.5"/>
+      <rect x="338" y="556" width="60" height="26" rx="3" fill="#4f6b55" stroke="#3a5340" stroke-width="1.5"/>
+      <!-- Đinh đá trên đế -->
+      <g fill="#3a5340" opacity="0.6">
+        <circle cx="34" cy="569" r="2.5"/><circle cx="52" cy="569" r="2.5"/><circle cx="70" cy="569" r="2.5"/>
+        <circle cx="350" cy="569" r="2.5"/><circle cx="368" cy="569" r="2.5"/><circle cx="386" cy="569" r="2.5"/>
+      </g>
 
-      <!-- Dây leo bám cổng -->
-      <path d="M40,580 Q26,430 58,330 Q84,250 70,168 Q62,128 96,104" stroke="url(#gVine)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M380,580 Q394,430 362,320 Q336,240 352,158 Q366,118 332,96" stroke="url(#gVine)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M130,104 Q170,74 250,84 Q310,94 330,128" stroke="url(#gVine)" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <g fill="#356b4a">
-        <ellipse cx="50" cy="380" rx="13" ry="7" transform="rotate(-30 50 380)"/>
-        <ellipse cx="66" cy="300" rx="12" ry="7" transform="rotate(20 66 300)"/>
-        <ellipse cx="60" cy="220" rx="11" ry="6" transform="rotate(-25 60 220)"/>
-        <ellipse cx="370" cy="380" rx="13" ry="7" transform="rotate(30 370 380)"/>
-        <ellipse cx="354" cy="300" rx="12" ry="7" transform="rotate(-20 354 300)"/>
-        <ellipse cx="360" cy="220" rx="11" ry="6" transform="rotate(25 360 220)"/>
-        <ellipse cx="160" cy="90" rx="12" ry="6" transform="rotate(-15 160 90)"/>
-        <ellipse cx="270" cy="88" rx="12" ry="6" transform="rotate(15 270 88)"/>
+      <!-- === Rêu bám trên đá === -->
+      <g fill="#3f7d57" opacity="0.55">
+        <ellipse cx="40" cy="540" rx="14" ry="8"/>
+        <ellipse cx="54" cy="500" rx="10" ry="6"/>
+        <ellipse cx="36" cy="300" rx="8" ry="10"/>
+        <ellipse cx="380" cy="530" rx="13" ry="8"/>
+        <ellipse cx="366" cy="480" rx="9" ry="6"/>
+        <ellipse cx="384" cy="320" rx="7" ry="9"/>
+        <ellipse cx="120" cy="90" rx="12" ry="7"/>
+        <ellipse cx="300" cy="88" rx="11" ry="7"/>
+      </g>
+
+      <!-- === Dây leo bám cổng === -->
+      <path d="M38,580 Q22,430 56,330 Q84,248 68,166 Q60,124 98,100" stroke="url(#gVine)" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+      <path d="M382,580 Q398,430 364,320 Q336,238 354,156 Q368,114 334,92" stroke="url(#gVine)" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+      <path d="M130,100 Q172,68 252,80 Q312,90 332,126" stroke="url(#gVine)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <!-- Lá trên dây leo (nhiều hơn, có gân) -->
+      <g fill="#3f7d57">
+        <ellipse cx="48" cy="390" rx="14" ry="8" transform="rotate(-30 48 390)"/>
+        <ellipse cx="66" cy="306" rx="13" ry="7" transform="rotate(20 66 306)"/>
+        <ellipse cx="58" cy="220" rx="12" ry="7" transform="rotate(-25 58 220)"/>
+        <ellipse cx="72" cy="150" rx="11" ry="6" transform="rotate(28 72 150)"/>
+        <ellipse cx="372" cy="390" rx="14" ry="8" transform="rotate(30 372 390)"/>
+        <ellipse cx="354" cy="306" rx="13" ry="7" transform="rotate(-20 354 306)"/>
+        <ellipse cx="362" cy="220" rx="12" ry="7" transform="rotate(25 362 220)"/>
+        <ellipse cx="348" cy="150" rx="11" ry="6" transform="rotate(-28 348 150)"/>
+        <ellipse cx="160" cy="86" rx="13" ry="7" transform="rotate(-15 160 86)"/>
+        <ellipse cx="270" cy="84" rx="13" ry="7" transform="rotate(15 270 84)"/>
+        <ellipse cx="210" cy="74" rx="12" ry="6" transform="rotate(0 210 74)"/>
+      </g>
+      <g stroke="#2d6a4f" stroke-width="0.6" opacity="0.5">
+        <line x1="42" y1="384" x2="54" y2="396"/>
+        <line x1="366" y1="384" x2="378" y2="396"/>
       </g>
     </svg>
 
-    <!-- Hai cánh cửa gỗ chạm khắc (mở ra) -->
+    <!-- Hai cánh cửa gỗ (mở ra) -->
     <div class="gate-doors" id="gateDoors">
       <div class="gate-door gate-door-left">
         <div class="gp-bar b1"></div>
         <div class="gp-bar b2"></div>
         <div class="gp-bar b3"></div>
-        <div class="gp-handle"></div>
+        <div class="gp-knob"></div>
         <div class="door-glow"></div>
       </div>
       <div class="gate-door gate-door-right">
         <div class="gp-bar b1"></div>
         <div class="gp-bar b2"></div>
         <div class="gp-bar b3"></div>
-        <div class="gp-handle"></div>
+        <div class="gp-knob"></div>
         <div class="door-glow"></div>
       </div>
     </div>
 
-    <!-- Ánh sáng phát ra từ khung cửa (idle) -->
+    <!-- Ánh sáng ấm trong khung cửa -->
     <div class="gate-shine"></div>
 
     <!-- Hoa hồng leo chuyển động -->
@@ -221,14 +265,11 @@
 
   <!-- ===== Nội dung thiệp ===== -->
   <div class="op-content" id="opFrame">
-    <div class="op-ornament">✦ ❦ ✦</div>
-    <div class="op-small">Trân trọng kính mời</div>
     <h1 class="op-title">
       <%= data.event.name %>
       <small><%= data.event.nameShort %></small>
     </h1>
     <div class="op-divider"></div>
-    <div class="op-date"><%= data.event.dateDisplay %></div>
     <button class="btn-open" onclick="openCard()">Mở Thiệp</button>
     <div class="op-tap">hoặc chạm vào cổng</div>
   </div>
