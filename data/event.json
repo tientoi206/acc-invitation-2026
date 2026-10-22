@@ -12,7 +12,8 @@
     "location": "Dòng Phanxicô",
     "locationNote": "Xem bản đồ bên dưới",
     "mapUrl": "https://maps.google.com/?q=D%C3%B2ng+Phanxic%C3%B4",
-    "mapAddress": "Dòng Phanxicô — địa chỉ chi tiết sẽ cập nhật"
+    "mapAddress": "Dòng Phanxicô — địa chỉ chi tiết sẽ cập nhật",
+    "durationHours": 3.5
   },
   "features": {
     "musicFile": "",
@@ -26,15 +27,67 @@
       "Sự hiện diện của Quý vị là niềm vinh hạnh và là món quà quý giá dành cho cộng đoàn chúng con. Kính mong Quý vị sắp xếp thời gian để cùng chia sẻ niềm vui trong ngày trọng đại này."
     ]
   },
+  "schedule": [
+    {
+      "time": "07:00",
+      "title": "Đón tiếp & ổn định chỗ ngồi",
+      "desc": "Ban Tổ chức đón tiếp Quý khách, nhận quà lưu niệm và check-in."
+    },
+    {
+      "time": "07:15",
+      "title": "Thánh Lễ Tạ Ơn",
+      "desc": "Cùng hiệp dâng Thánh Lễ tạ ơn Thiên Chúa vì một năm hồng ân."
+    },
+    {
+      "time": "08:30",
+      "title": "Khai mạc & Lời tri ân",
+      "desc": "Phát biểu khai mạc, nhìn lại hành trình ACC và gửi lời tri ân."
+    },
+    {
+      "time": "09:00",
+      "title": "Chương trình văn nghệ",
+      "desc": "Những tiết mục ca múa, hoạt cảnh do các bạn sinh viên thực hiện."
+    },
+    {
+      "time": "10:00",
+      "title": "Trao quà tri ân",
+      "desc": "Trao quà tri ân Quý Thầy Cô, Quý ân nhân và các anh chị đồng hành."
+    },
+    {
+      "time": "10:30",
+      "title": "Chụp ảnh lưu niệm & Bế mạc",
+      "desc": "Chụp ảnh cùng nhau, dùng tiệc nhẹ và khép lại buổi lễ."
+    }
+  ],
   "thanks": {
     "quote": "Lạy Chúa Thánh Thần, xin Ngài ngự đến và đổi mới tâm hồn chúng con, để mỗi ngày chúng con biết sống trọn vẹn ơn gọi và sứ mạng mà Ngài đã trao ban.",
     "signature": "Sinh Viên Công Giáo Thánh Linh",
     "role": "Ban Tổ chức Lễ Tri Ân ACC 2026"
   },
   "gallery": [
-    { "image": "", "caption": "Khoảnh khắc 1" },
-    { "image": "", "caption": "Khoảnh khắc 2" },
-    { "image": "", "caption": "Khoảnh khắc 3" },
-    { "image": "", "caption": "Khoảnh khắc 4" }
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 1"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 2"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 3"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 4"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 5"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 6"
+    }
   ]
 }
