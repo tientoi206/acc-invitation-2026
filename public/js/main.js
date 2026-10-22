@@ -1,4 +1,4 @@
-/* ============ MỞ THIỆP (CỔNG RỪNG + CHÓI SÁNG) ============ */
+/* ============ MỞ THIỆP: CHÓI SÁNG TRÀN KÍN ============ */
 let isOpening = false;
 function openCard() {
   if (isOpening) return;
@@ -6,23 +6,22 @@ function openCard() {
 
   const opening = document.getElementById('opening');
 
-  // 1) Mở hai cánh cổng + nội dung bay đi + ánh chói
+  // Kích hoạt: mở cổng + ánh sáng tràn + tăng sáng cảnh
   opening.classList.add('is-opening');
 
-  // 2) Nhạc + countdown + scroll
   tryPlayMusic();
   document.body.style.overflow = 'auto';
   startCountdown();
 
-  // 3) Sau khi chói sáng phủ trắng -> fade & ẩn màn hình
+  // Khi ánh chói đã phủ gần kín -> fade màn hình để lộ trang thiệp
   setTimeout(() => {
     opening.classList.add('hide');
     initReveal();
-  }, 1250);
+  }, 1550);
 
   setTimeout(() => {
     opening.style.display = 'none';
-  }, 2400);
+  }, 2700);
 }
 document.body.style.overflow = 'hidden';
 
@@ -30,45 +29,31 @@ document.body.style.overflow = 'hidden';
 (function gateInteractions() {
   const gate = document.getElementById('gate3d');
   const opening = document.getElementById('opening');
-  const bgForest = document.getElementById('bgForest');
-  const stage = document.getElementById('stage');
+  const scene = document.querySelector('.scene');
   if (!gate || !opening) return;
 
   // Chạm / click vào cổng để mở thiệp
-  gate.addEventListener('click', () => {
-    if (!isOpening) openCard();
-  });
-  // Bàn phím (Enter/Space) khi focus cổng
+  gate.addEventListener('click', () => { if (!isOpening) openCard(); });
   gate.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && !isOpening) {
-      e.preventDefault();
-      openCard();
-    }
+    if ((e.key === 'Enter' || e.key === ' ') && !isOpening) { e.preventDefault(); openCard(); }
   });
 
-  // Parallax theo chuột: rừng + cổng nhích nhẹ tạo chiều sâu
-  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  // Parallax nhẹ: cảnh rừng + lá dịch theo chuột tạo chiều sâu
+  let tx = 0, ty = 0, cx = 0, cy = 0;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (!reduce && stage) {
+  if (!reduce && scene) {
     window.addEventListener('mousemove', (e) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      targetX = (e.clientX - cx) / cx; // -1..1
-      targetY = (e.clientY - cy) / cy;
+      tx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      ty = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
     });
-    window.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
-
-    function loop() {
-      curX += (targetX - curX) * 0.06;
-      curY += (targetY - curY) * 0.06;
-      if (bgForest) bgForest.style.transform =
-        'scale(1.12) translate(' + (curX * -1.4) + '%, ' + (curY * -1.0) + '%)';
-      if (stage) stage.style.transform =
-        'translate(' + (curX * 8) + 'px, ' + (curY * 6) + 'px)';
+    window.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+    (function loop() {
+      cx += (tx - cx) * 0.05;
+      cy += (ty - cy) * 0.05;
+      scene.style.transform = 'translate(' + (cx * -10) + 'px,' + (cy * -8) + 'px)';
+      if (gate) gate.style.marginLeft = (cx * 6) + 'px';
       requestAnimationFrame(loop);
-    }
-    loop();
+    })();
   }
 })();
 
