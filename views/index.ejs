@@ -15,104 +15,49 @@
 </head>
 <body>
 
-<!-- ============ MÀN HÌNH MỞ THIỆP: CỔNG RỪNG ============ -->
+<!-- ============ MÀN HÌNH MỞ THIỆP: CỔNG RỪNG THẬT ============ -->
 <div id="opening">
-  <!-- Nền rừng nhiều lớp -->
-  <div class="forest">
-    <div class="forest-gradient"></div>
-    <div class="sun-rays"></div>
-    <!-- Lớp cây xa -->
-    <div class="tree-line far">
-      <svg viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,300 L0,200 Q30,150 60,190 Q90,120 130,175 Q160,110 210,170 Q250,120 300,180 Q340,130 390,185 Q420,140 470,190 Q510,150 560,195 Q600,150 650,190 Q690,130 740,185 Q780,120 830,175 Q870,110 920,175 Q960,130 1010,185 Q1050,140 1100,190 Q1140,150 1200,180 L1200,300 Z" fill="#0e3324"/>
-      </svg>
-    </div>
-    <!-- Lớp cây gần -->
-    <div class="tree-line near">
-      <svg viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,320 L0,240 Q40,200 90,240 Q130,180 190,235 Q240,190 300,245 Q360,200 420,250 Q470,205 530,255 Q580,210 640,250 Q700,195 760,250 Q810,205 870,245 Q930,195 990,250 Q1040,205 1100,250 Q1150,210 1200,240 L1200,320 Z" fill="#082018"/>
-      </svg>
-    </div>
-    <!-- Lá bay trong rừng -->
-    <div class="leaves" aria-hidden="true"></div>
-    <!-- Đốm sáng lơ lửng -->
-    <div class="fireflies" aria-hidden="true"></div>
-  </div>
+  <!-- Lớp nền rừng (parallax) -->
+  <div class="bg-forest" id="bgForest"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-mist"></div>
 
-  <!-- Ánh sáng hắt từ cổng -->
-  <div class="gate-glow"></div>
+  <!-- Lá bay + đom đóm -->
+  <div class="leaves" aria-hidden="true"></div>
+  <div class="fireflies" aria-hidden="true"></div>
 
-  <!-- ===== CỔNG VÒM TRUNG TÂM ===== -->
-  <div class="gate" id="gate">
-    <svg class="gate-arch" viewBox="0 0 400 560" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-      <defs>
-        <linearGradient id="stoneGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#2d4a3a"/>
-          <stop offset="0.5" stop-color="#3d5f49"/>
-          <stop offset="1" stop-color="#274436"/>
-        </linearGradient>
-        <linearGradient id="vineGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4a8a5f"/>
-          <stop offset="1" stop-color="#2d6a4f"/>
-        </linearGradient>
-      </defs>
+  <!-- Sân khấu: cổng + sàn -->
+  <div class="stage" id="stage">
+    <!-- Sàn gạch phía trước -->
+    <div class="floor"></div>
 
-      <!-- Thân cổng: hai trụ + vòm trên -->
-      <path d="M40,560 L40,230 Q40,60 200,60 Q360,60 360,230 L360,560 L320,560 L320,235 Q320,100 200,100 Q80,100 80,235 L80,560 Z" fill="url(#stoneGrad)" stroke="#1b3a2c" stroke-width="2"/>
-      <!-- Khoảng trống bên trong (để lộ nền bên trong) -->
-      <path d="M95,560 L95,235 Q95,115 200,115 Q305,115 305,235 L305,560 Z" fill="#0a1f16"/>
+    <!-- Cổng thật -->
+    <div class="gate3d" id="gate3d" title="Chạm để mở thiệp" role="button" tabindex="0" aria-label="Mở thiệp">
+      <div class="gate-img" id="gateImg"></div>
 
-      <!-- Đá khắc trên trụ -->
-      <g stroke="rgba(149,213,178,.18)" stroke-width="1.4" fill="none">
-        <line x1="60" y1="230" x2="60" y2="560"/>
-        <line x1="70" y1="230" x2="70" y2="560"/>
-        <line x1="340" y1="230" x2="340" y2="560"/>
-        <line x1="330" y1="230" x2="330" y2="560"/>
-      </g>
+      <!-- Ánh sáng phát ra từ cổng -->
+      <div class="gate-shine"></div>
 
-      <!-- Dây leo bám cổng -->
-      <path d="M42,560 Q30,420 60,330 Q85,250 70,170 Q60,130 90,110" stroke="url(#vineGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M358,560 Q372,420 342,320 Q315,240 330,160 Q342,120 312,102" stroke="url(#vineGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M120,110 Q160,70 240,80 Q300,90 320,130" stroke="url(#vineGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
-
-      <!-- Lá trên dây leo -->
-      <g fill="#3f7d57">
-        <ellipse cx="52" cy="380" rx="12" ry="7" transform="rotate(-30 52 380)"/>
-        <ellipse cx="68" cy="300" rx="11" ry="6" transform="rotate(20 68 300)"/>
-        <ellipse cx="60" cy="220" rx="10" ry="6" transform="rotate(-25 60 220)"/>
-        <ellipse cx="348" cy="380" rx="12" ry="7" transform="rotate(30 348 380)"/>
-        <ellipse cx="332" cy="300" rx="11" ry="6" transform="rotate(-20 332 300)"/>
-        <ellipse cx="340" cy="220" rx="10" ry="6" transform="rotate(25 340 220)"/>
-        <ellipse cx="150" cy="86" rx="11" ry="6" transform="rotate(-15 150 86)"/>
-        <ellipse cx="250" cy="82" rx="11" ry="6" transform="rotate(15 250 82)"/>
-      </g>
-
-      <!-- Khung vòm trang trí -->
-      <path d="M95,235 Q95,115 200,115 Q305,115 305,235" stroke="rgba(232,212,139,.35)" stroke-width="3" fill="none"/>
-    </svg>
-
-    <!-- Hai cánh cổng gỗ nằm trong vòm -->
-    <div class="gate-doors" id="gateDoors">
-      <div class="gate-door gate-door-left">
-        <div class="gbar"></div><div class="gbar"></div><div class="gbar"></div>
-        <div class="gring"></div>
+      <!-- Hai cánh cửa (lớp phủ mở ra) -->
+      <div class="gate-doors" id="gateDoors">
+        <div class="gate-door gate-door-left"><div class="door-glow"></div></div>
+        <div class="gate-door gate-door-right"><div class="door-glow"></div></div>
       </div>
-      <div class="gate-door gate-door-right">
-        <div class="gbar"></div><div class="gbar"></div><div class="gbar"></div>
-        <div class="gring"></div>
-      </div>
-    </div>
 
-    <!-- Hoa thật leo trên cổng (nhiều chùm, chuyển động) -->
-    <div class="gate-flowers" aria-hidden="true">
-      <div class="gflower gf1"></div><div class="gflower gf2"></div><div class="gflower gf3"></div>
-      <div class="gflower gf4"></div><div class="gflower gf5"></div><div class="gflower gf6"></div>
-      <div class="gflower gf7"></div><div class="gflower gf8"></div><div class="gflower gf9"></div>
-      <div class="gflower gf10"></div><div class="gflower gf11"></div><div class="gflower gf12"></div>
+      <!-- Hoa leo chuyển động trên cổng -->
+      <div class="gate-flowers" aria-hidden="true">
+        <div class="gflower gf1"></div><div class="gflower gf2"></div><div class="gflower gf3"></div>
+        <div class="gflower gf4"></div><div class="gflower gf5"></div><div class="gflower gf6"></div>
+        <div class="gflower gf7"></div><div class="gflower gf8"></div><div class="gflower gf9"></div>
+        <div class="gflower gf10"></div><div class="gflower gf11"></div><div class="gflower gf12"></div>
+      </div>
     </div>
   </div>
 
-  <!-- ===== NỘI DUNG THIỆP (nằm trước cổng) ===== -->
+  <!-- Ánh chói khi cổng mở -->
+  <div class="light-burst" id="lightBurst" aria-hidden="true"></div>
+
+  <!-- Nội dung thiệp -->
   <div class="op-content" id="opFrame">
     <div class="op-ornament">✦ ❦ ✦</div>
     <div class="op-small">Trân trọng kính mời</div>
@@ -123,6 +68,7 @@
     <div class="op-divider"></div>
     <div class="op-date"><%= data.event.dateDisplay %></div>
     <button class="btn-open" onclick="openCard()">Mở Thiệp</button>
+    <div class="op-tap">hoặc chạm vào cổng</div>
   </div>
 </div>
 

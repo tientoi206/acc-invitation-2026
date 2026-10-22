@@ -1,4 +1,4 @@
-/* ============ MỞ THIỆP (CỔNG RỪNG) ============ */
+/* ============ MỞ THIỆP (CỔNG RỪNG + CHÓI SÁNG) ============ */
 let isOpening = false;
 function openCard() {
   if (isOpening) return;
@@ -6,7 +6,7 @@ function openCard() {
 
   const opening = document.getElementById('opening');
 
-  // 1) Mở hai cánh cổng + nội dung bay đi
+  // 1) Mở hai cánh cổng + nội dung bay đi + ánh chói
   opening.classList.add('is-opening');
 
   // 2) Nhạc + countdown + scroll
@@ -14,17 +14,63 @@ function openCard() {
   document.body.style.overflow = 'auto';
   startCountdown();
 
-  // 3) Fade & ẩn toàn màn hình
+  // 3) Sau khi chói sáng phủ trắng -> fade & ẩn màn hình
   setTimeout(() => {
     opening.classList.add('hide');
     initReveal();
-  }, 1200);
+  }, 1250);
 
   setTimeout(() => {
     opening.style.display = 'none';
-  }, 2300);
+  }, 2400);
 }
 document.body.style.overflow = 'hidden';
+
+/* ============ TƯƠNG TÁC: CHẠM CỔNG + PARALLAX CHUỘT ============ */
+(function gateInteractions() {
+  const gate = document.getElementById('gate3d');
+  const opening = document.getElementById('opening');
+  const bgForest = document.getElementById('bgForest');
+  const stage = document.getElementById('stage');
+  if (!gate || !opening) return;
+
+  // Chạm / click vào cổng để mở thiệp
+  gate.addEventListener('click', () => {
+    if (!isOpening) openCard();
+  });
+  // Bàn phím (Enter/Space) khi focus cổng
+  gate.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !isOpening) {
+      e.preventDefault();
+      openCard();
+    }
+  });
+
+  // Parallax theo chuột: rừng + cổng nhích nhẹ tạo chiều sâu
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce && stage) {
+    window.addEventListener('mousemove', (e) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      targetX = (e.clientX - cx) / cx; // -1..1
+      targetY = (e.clientY - cy) / cy;
+    });
+    window.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
+
+    function loop() {
+      curX += (targetX - curX) * 0.06;
+      curY += (targetY - curY) * 0.06;
+      if (bgForest) bgForest.style.transform =
+        'scale(1.12) translate(' + (curX * -1.4) + '%, ' + (curY * -1.0) + '%)';
+      if (stage) stage.style.transform =
+        'translate(' + (curX * 8) + 'px, ' + (curY * 6) + 'px)';
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+})();
 
 /* ============ HOA RƠI (bông hoa 4 cánh) ============ */
 (function createPetals() {
