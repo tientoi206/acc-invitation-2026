@@ -34,6 +34,28 @@ function assetVersion(relPath) {
   }
 }
 
+// Nhạc nền: ưu tiên "musicFile" trong data/event.json; nếu để trống thì tự lấy
+// file nhạc đầu tiên (theo tên) trong public/music/. Gắn ?v= theo dung lượng file
+// để khi thay bài khác, trình duyệt tải bài mới.
+// Nhận cả file video .mp4/.webm (trình duyệt phát phần tiếng). Có nhiều file thì ưu tiên
+// file nhạc thuần (mp3, m4a...) trước, cùng loại thì theo tên.
+const MUSIC_EXT = ['mp3', 'm4a', 'aac', 'ogg', 'wav', 'mp4', 'webm'];
+const extRank = (f) => MUSIC_EXT.indexOf(path.extname(f).slice(1).toLowerCase());
+function musicSource(data) {
+  try {
+    if (data.features && data.features.musicFile) return data.features.musicFile;
+    const dir = path.join(__dirname, 'public', 'music');
+    const file = fs.readdirSync(dir)
+      .filter((f) => extRank(f) >= 0)
+      .sort((a, b) => extRank(a) - extRank(b) || a.localeCompare(b))[0];
+    if (!file) return '';
+    const size = fs.statSync(path.join(dir, file)).size;
+    return '/public/music/' + encodeURIComponent(file) + '?v=' + size.toString(36);
+  } catch (e) {
+    return '';
+  }
+}
+
 app.get('/', (req, res) => {
   const data = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'data', 'event.json'), 'utf-8')
@@ -41,6 +63,7 @@ app.get('/', (req, res) => {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.render('index', {
     data,
+    musicSrc: musicSource(data),
     cssVersion: assetVersion('public/css/style.css'),
     jsVersion: assetVersion('public/js/main.js')
   });

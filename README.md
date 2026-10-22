@@ -39,7 +39,7 @@ Hoặc import repo GitHub vào dashboard Vercel (Framework: Other).
 
 | Việc | Cách làm |
 |---|---|
-| Nhạc nền | Thả file vào `public/music/`, rồi set `"musicFile": "/public/music/nhac.mp3"` trong `data/event.json` |
+| Nhạc nền | Thả 1 file `.mp3` vào `public/music/` là xong — server tự nhận (nếu có nhiều file thì lấy file đầu tiên theo tên). Nhạc phát khi bấm mở cổng, lặp suốt lúc xem thiệp. Muốn chỉ định cụ thể thì set `"musicFile"` trong `data/event.json` |
 | Ảnh thư viện | Thả ảnh vào `public/images/gallery/`, set `"image": "/public/images/gallery/1.jpg"` trong mảng `gallery` |
 | Link bản đồ | Cập nhật `"mapUrl"`, `"mapAddress"` trong `data/event.json` |
 | Ngày giờ | Cập nhật `"date"` (ISO, giờ VN `+07:00`) và `"dateDisplay"` |

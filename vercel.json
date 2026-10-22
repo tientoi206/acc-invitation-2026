@@ -1,9 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    { "src": "server.js", "use": "@vercel/node" },
+    { "src": "public/music/**", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/public/music/(.*)", "dest": "/public/music/$1" },
     { "src": "/(.*)", "dest": "/server.js" }
   ]
 }

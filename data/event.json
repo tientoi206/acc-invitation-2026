@@ -16,6 +16,7 @@
   },
   "features": {
     "musicFile": "",
+    "musicStart": 0,
     "openLetter": ""
   },
   "invitation": {

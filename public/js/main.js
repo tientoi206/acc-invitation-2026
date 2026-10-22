@@ -4,12 +4,14 @@ function openCard() {
   if (isOpening) return;
   isOpening = true;
 
+  // Phát nhạc đầu tiên, ngay trong cú bấm
+  tryPlayMusic();
+
   const opening = document.getElementById('opening');
 
   // Bước 1: hai cánh mở vào trong, lòng cổng sáng dần
   opening.classList.add('is-opening');
 
-  tryPlayMusic();
   document.body.style.overflow = 'auto';
   startCountdown();
 
@@ -22,11 +24,11 @@ function openCard() {
   setTimeout(() => {
     opening.classList.add('hide');
     initReveal();
-  }, 2850);
+  }, 2550);
 
   setTimeout(() => {
     opening.style.display = 'none';
-  }, 3900);
+  }, 3600);
 }
 document.body.style.overflow = 'hidden';
 
@@ -52,11 +54,19 @@ document.body.style.overflow = 'hidden';
       ty = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
     });
     window.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+    // Dùng translate (không gây tính lại bố cục), bỏ qua khi chuột gần như đứng yên,
+    // và dừng hẳn khi đã bấm mở để hiệu ứng chuyển cảnh chạy mượt.
+    const ground = document.querySelector('.gate-ground');
     (function loop() {
-      cx += (tx - cx) * 0.05;
-      cy += (ty - cy) * 0.05;
-      scene.style.transform = 'translate(' + (cx * -10) + 'px,' + (cy * -8) + 'px)';
-      if (gate) gate.style.marginLeft = (cx * 6) + 'px';
+      if (isOpening) return;
+      const dx = (tx - cx) * 0.05, dy = (ty - cy) * 0.05;
+      if (Math.abs(dx) > 0.0005 || Math.abs(dy) > 0.0005) {
+        cx += dx; cy += dy;
+        scene.style.transform = 'translate(' + (cx * -10).toFixed(2) + 'px,' + (cy * -8).toFixed(2) + 'px)';
+        const g = (cx * 6).toFixed(2) + 'px 0';
+        gate.style.translate = g;
+        if (ground) ground.style.translate = g;
+      }
       requestAnimationFrame(loop);
     })();
   }
@@ -160,34 +170,70 @@ const musicBtn = document.getElementById('musicBtn');
 const bgMusic = document.getElementById('bgMusic');
 let musicPlaying = false;
 
+const MUSIC_VOLUME = 0.6;
+let pausedByHide = false;
+
+// Tăng/giảm âm lượng mượt trong `ms` mili-giây
+function fadeVolume(to, ms, done) {
+  const from = bgMusic.volume, start = performance.now();
+  (function step(now) {
+    const t = Math.min(1, (now - start) / ms);
+    bgMusic.volume = from + (to - from) * t;
+    if (t < 1) requestAnimationFrame(step); else if (done) done();
+  })(start);
+}
+
+function setMusicUI(on) {
+  musicPlaying = on;
+  if (musicBtn) musicBtn.classList.toggle('paused', !on);
+}
+
+// Gọi ngay trong lúc bấm mở thiệp (cử chỉ của người dùng) nên trình duyệt cho phép phát.
+// Vào gần như tức thì (tăng âm 0,3s chỉ để khỏi tiếng "bụp"); "musicStart" trong
+// data/event.json = số giây muốn bỏ qua ở đầu bài.
 function tryPlayMusic() {
-  if (!bgMusic || !bgMusic.querySelector('source')) return;
+  if (!bgMusic) return;
+  const startAt = parseFloat(bgMusic.dataset.start) || 0;
+  if (startAt && bgMusic.currentTime < startAt) {
+    try { bgMusic.currentTime = startAt; } catch (e) {}
+  }
+  bgMusic.volume = 0.05;
   bgMusic.play().then(() => {
-    musicPlaying = true;
-    musicBtn.classList.remove('paused');
-  }).catch(() => {
-    musicPlaying = false;
-    musicBtn.classList.add('paused');
+    setMusicUI(true);
+    fadeVolume(MUSIC_VOLUME, 300);
+  }).catch(() => setMusicUI(false));
+}
+
+// Khi chưa tải xong metadata thì chưa tua được -> tua lúc metadata sẵn sàng
+if (bgMusic) {
+  bgMusic.addEventListener('loadedmetadata', () => {
+    const startAt = parseFloat(bgMusic.dataset.start) || 0;
+    if (startAt && bgMusic.currentTime < startAt) bgMusic.currentTime = startAt;
   });
 }
 
-musicBtn.addEventListener('click', () => {
-  if (!bgMusic || !bgMusic.querySelector('source')) {
-    musicBtn.animate(
-      [{ transform: 'translateX(-4px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }],
-      { duration: 260 }
-    );
-    return;
-  }
-  if (musicPlaying) {
-    bgMusic.pause();
-    musicBtn.classList.add('paused');
-  } else {
-    bgMusic.play();
-    musicBtn.classList.remove('paused');
-  }
-  musicPlaying = !musicPlaying;
-});
+if (musicBtn && bgMusic) {
+  musicBtn.addEventListener('click', () => {
+    if (musicPlaying) {
+      fadeVolume(0, 400, () => bgMusic.pause());
+      setMusicUI(false);
+    } else {
+      bgMusic.play().then(() => fadeVolume(MUSIC_VOLUME, 800)).catch(() => {});
+      setMusicUI(true);
+    }
+  });
+
+  // Chuyển tab / khoá màn hình: tạm dừng, quay lại thì phát tiếp
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && musicPlaying) {
+      pausedByHide = true;
+      bgMusic.pause();
+    } else if (!document.hidden && pausedByHide) {
+      pausedByHide = false;
+      bgMusic.play().catch(() => {});
+    }
+  });
+}
 
 /* ============ REVEAL KHI SCROLL ============ */
 let revealInited = false;
