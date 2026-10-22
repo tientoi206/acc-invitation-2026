@@ -6,22 +6,27 @@ function openCard() {
 
   const opening = document.getElementById('opening');
 
-  // Kích hoạt: mở cổng + ánh sáng tràn + tăng sáng cảnh
+  // Bước 1: hai cánh mở vào trong, lòng cổng sáng dần
   opening.classList.add('is-opening');
 
   tryPlayMusic();
   document.body.style.overflow = 'auto';
   startCountdown();
 
-  // Khi ánh chói đã phủ gần kín -> fade màn hình để lộ trang thiệp
+  // Bước 2: khi cửa đã mở gần hết -> zoom vào lòng cổng, ánh sáng phủ kín màn
+  setTimeout(() => {
+    opening.classList.add('is-entering');
+  }, 1000);
+
+  // Bước 3: ánh chói đã phủ kín -> fade màn hình để lộ trang thiệp
   setTimeout(() => {
     opening.classList.add('hide');
     initReveal();
-  }, 1550);
+  }, 2850);
 
   setTimeout(() => {
     opening.style.display = 'none';
-  }, 2700);
+  }, 3900);
 }
 document.body.style.overflow = 'hidden';
 

@@ -143,6 +143,8 @@ body::before{
   content:"";position:absolute;inset:0;
   background:radial-gradient(circle,rgba(255,252,232,.95) 0,rgba(255,246,206,.55) 6%,transparent 16%);
 }
+#opening.is-opening .gate-rays::after{animation:raysFlare 1.4s ease-out .3s forwards;}
+@keyframes raysFlare{to{opacity:1;transform:scale(1.6);}}
 @keyframes raysSpin{from{transform:translate(-50%,50%) rotate(0deg);}to{transform:translate(-50%,50%) rotate(360deg);}}
 
 /* ===== Mặt đất trước cổng: luống hoa, lối đi, hàng rào (cùng toạ độ với cổng) ===== */
@@ -228,49 +230,40 @@ body::before{
 }
 .gate-door svg{display:block;width:100%;height:100%;filter:drop-shadow(1px 2px 1.5px rgba(20,40,30,.35));}
 .gate-door-right{transform-origin:right center;}
-#opening.is-opening .gate-door-left{transform:rotateY(-112deg);}
-#opening.is-opening .gate-door-right{transform:rotateY(112deg);}
+/* Bước 1: hai cánh mở VÀO TRONG (mép giữa lùi ra xa người xem) */
+#opening.is-opening .gate-door-left{transform:rotateY(84deg);}
+#opening.is-opening .gate-door-right{transform:rotateY(-84deg);}
+#opening.is-opening .gate-door svg{filter:brightness(.72) drop-shadow(1px 2px 1.5px rgba(20,40,30,.35));transition:filter 1.5s;}
 
-/* ===== HIỆU ỨNG CHÓI: tràn từ khung cửa -> phủ kín màn ===== */
+/* Ánh sáng chói trong lòng cổng — khớp ô cửa (x 100–320, y 146–562 trên khung 420×580) */
+.gate-glow{
+  position:absolute;z-index:2;pointer-events:none;
+  left:23.81%;right:23.81%;top:25.17%;bottom:3.1%;
+  border-radius:50% 50% 0 0 / 26.4% 26.4% 0 0;
+  background:radial-gradient(ellipse at 50% 55%,#ffffff 0,#ffffff 34%,#fffcef 62%,#fff1c6 100%);
+  opacity:0;
+}
+#opening.is-opening .gate-glow{animation:glowOn 1.3s ease-out .25s forwards;}
+@keyframes glowOn{
+  from{opacity:0;box-shadow:0 0 0 0 rgba(255,246,214,0);}
+  to{opacity:1;box-shadow:0 0 50px 22px rgba(255,253,240,1),0 0 140px 70px rgba(255,244,205,.8),0 0 260px 120px rgba(255,236,170,.45);}
+}
+
+/* Bước 2: cả khung cảnh phóng to dần về tâm lòng cổng như đang bước vào */
+.world{
+  position:absolute;inset:0;
+  transform-origin:50% calc(100% - var(--gate-b) - var(--gate-hh) * .39);
+}
+#opening.is-entering .world{animation:enterGate 1.9s cubic-bezier(.55,0,.85,.3) forwards;}
+@keyframes enterGate{from{transform:scale(1);}to{transform:scale(11);}}
+
+/* Bước 3: ánh sáng trắng ấm phủ kín màn hình */
 .light-burst{
-  position:absolute;inset:0;z-index:8;pointer-events:none;
-  display:flex;align-items:center;justify-content:center;opacity:0;
+  position:absolute;inset:0;z-index:8;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 50% calc(100% - var(--gate-b) - var(--gate-hh) * .39),#ffffff 0,#fffdf5 40%,#fff6df 100%);
 }
-.burst-core{
-  position:absolute;
-  width:22vw;height:30vh;max-width:360px;max-height:400px;
-  border-radius:50%;
-  background:
-    radial-gradient(ellipse at center,
-      #ffffff 0%,
-      #fffdf2 22%,
-      #fff3c8 40%,
-      rgba(255,240,190,.75) 58%,
-      rgba(255,240,190,0) 78%);
-  filter:blur(4px);
-}
-
-/* Khi mở: ánh sáng lớn dần + phủ trắng toàn màn */
-#opening.is-opening .light-burst{animation:burstAppear .3s ease-out forwards;}
-#opening.is-opening .burst-core{animation:burstGrow 1.7s cubic-bezier(.4,0,.2,1) forwards;}
-
-@keyframes burstAppear{to{opacity:1;}}
-@keyframes burstGrow{
-  0%{transform:scale(.4);opacity:.9;}
-  30%{transform:scale(1.6);opacity:1;}
-  60%{transform:scale(4.5);opacity:1;}
-  85%{transform:scale(12);opacity:1;}
-  100%{transform:scale(26);opacity:1;}
-}
-/* Ánh sáng hắt lên cả cảnh trước khi phủ trắng */
-#opening.is-opening .scene,
-#opening.is-opening .floor{animation:sceneFlash 1.7s ease-out forwards;}
-@keyframes sceneFlash{
-  0%{filter:brightness(1);}
-  35%{filter:brightness(1.15) saturate(.85);}
-  60%{filter:brightness(1.35) saturate(.5);}
-  100%{filter:brightness(1.7) saturate(.2);}
-}
+#opening.is-entering .light-burst{animation:whiteOut 1.9s ease-in forwards;}
+@keyframes whiteOut{0%,40%{opacity:0;}100%{opacity:1;}}
 
 /* ===== Nội dung thiệp ===== */
 /* Tiêu đề phía trên cổng, nút phía dưới trên lối đi */
