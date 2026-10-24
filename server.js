@@ -110,6 +110,73 @@ app.get('/', (req, res) => {
   });
 });
 
+/* ============ ĐĂNG KÝ THAM DỰ ============ */
+const rsvp = require('./lib/rsvp');
+app.use('/api', express.json({ limit: '10kb' }));
+
+// Chống gửi dồn: mỗi IP tối đa 8 lần / 10 phút
+const hits = new Map();
+function tooMany(ip) {
+  const now = Date.now();
+  const arr = (hits.get(ip) || []).filter((t) => now - t < 600000);
+  arr.push(now);
+  hits.set(ip, arr);
+  return arr.length > 8;
+}
+
+app.post('/api/rsvp', async (req, res) => {
+  const body = req.body || {};
+  // ô "website" ẩn: người thật không thấy để điền, bot tự điền thì bỏ qua
+  if (body.website) return res.json({ ok: true });
+  const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  if (tooMany(ip)) return res.status(429).json({ ok: false, message: 'Bạn gửi hơi nhiều lần, vui lòng thử lại sau ít phút.' });
+
+  const v = rsvp.validate(body);
+  if (!v.ok) return res.status(400).json({ ok: false, errors: v.errors, message: 'Vui lòng kiểm tra lại thông tin.' });
+  try {
+    const r = await rsvp.save(v.entry);
+    res.json({ ok: true, updated: r.updated, name: v.entry.name });
+  } catch (e) {
+    console.error('RSVP save failed:', e.message);
+    const msg = e.code === 'NO_STORAGE'
+      ? 'Mục đăng ký đang được thiết lập, bạn vui lòng quay lại sau nhé.'
+      : 'Chưa gửi được, bạn thử lại giúp mình nhé.';
+    res.status(503).json({ ok: false, message: msg });
+  }
+});
+
+// Trang xem danh sách: /quan-ly?key=MAT_KHAU
+// Mật khẩu lấy từ biến môi trường ADMIN_KEY; chạy trên máy mà chưa đặt thì mặc định "leacc".
+const ADMIN_KEY = process.env.ADMIN_KEY || (process.env.VERCEL === '1' ? '' : 'leacc');
+function checkKey(req, res) {
+  const key = String(req.query.key || '');
+  if (!ADMIN_KEY || key !== ADMIN_KEY) {
+    res.status(401).set('Cache-Control', 'no-store').render('admin', { rows: null, error: key ? 'Sai mật khẩu.' : '', key: '', mode: rsvp.mode() });
+    return false;
+  }
+  return true;
+}
+app.get('/quan-ly', async (req, res) => {
+  if (!checkKey(req, res)) return;
+  res.set('Cache-Control', 'no-store');
+  try {
+    const rows = (await rsvp.list()).slice().reverse();
+    res.render('admin', { rows, error: '', key: req.query.key, mode: rsvp.mode() });
+  } catch (e) {
+    res.render('admin', { rows: [], error: 'Không đọc được danh sách: ' + e.message, key: req.query.key, mode: rsvp.mode() });
+  }
+});
+app.get('/quan-ly/danh-sach.csv', async (req, res) => {
+  if (!checkKey(req, res)) return;
+  const rows = await rsvp.list();
+  const esc = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
+  const csv = ['Thời gian,Họ tên,Zalo,Facebook']
+    .concat(rows.map((r) => [new Date(r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }), r.name, "'" + r.zalo, r.facebook].map(esc).join(',')))
+    .join('\r\n');
+  res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="dang-ky-le-tri-an.csv"', 'Cache-Control': 'no-store' });
+  res.send('﻿' + csv); // BOM để Excel đọc đúng tiếng Việt
+});
+
 // Chỉ listen khi chạy local. Trên Vercel, serverless tự handle.
 if (process.env.VERCEL !== '1') {
   app.listen(PORT, () => {

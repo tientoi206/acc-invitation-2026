@@ -11,13 +11,15 @@
     "timeNote": "Đón tiếp từ 7:00",
     "location": "Dòng Phanxicô",
     "locationNote": "Xem bản đồ bên dưới",
-    "mapUrl": "https://maps.google.com/?q=D%C3%B2ng+Phanxic%C3%B4",
-    "mapAddress": "Dòng Phanxicô — địa chỉ chi tiết sẽ cập nhật",
-    "durationHours": 3.5
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RQRJ%2BMC%20T%C4%83ng%20Nh%C6%A1n%20Ph%C3%BA%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam",
+    "mapEmbed": "https://www.google.com/maps?q=RQRJ%2BMC%20T%C4%83ng%20Nh%C6%A1n%20Ph%C3%BA%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam&z=17&hl=vi&output=embed",
+    "mapAddress": "Tăng Nhơn Phú, TP. Hồ Chí Minh",
+    "durationHours": 3.5,
+    "mapPlusCode": "RQRJ+MC"
   },
   "features": {
     "musicFile": "",
-    "musicStart": 0,
+    "musicStart": 5,
     "openLetter": ""
   },
   "invitation": {

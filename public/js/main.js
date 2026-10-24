@@ -321,6 +321,7 @@ function startCountdown() {
   const bar = root.querySelector('.cf-progress');
   const playBtn = root.querySelector('.cf-play');
   const cur = root.querySelector('.car-cur');
+  const bigNum = root.querySelector('.cf-bignum');
   const n = slides.length;
   if (!n) { root.classList.remove('pre'); return; }
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -402,6 +403,10 @@ function startCountdown() {
     thumbs.forEach((d, k) => d.classList.toggle('active', k === active));
     centerThumb(thumbsWrap, thumbs[active]);
     if (cur) cur.textContent = String(active + 1).padStart(2, '0');
+    if (bigNum) {
+      bigNum.textContent = String(active + 1).padStart(2, '0');
+      bigNum.classList.remove('pop'); void bigNum.offsetWidth; bigNum.classList.add('pop');
+    }
     const src = srcOf(active);
     if (ambient) { ambient.style.backgroundImage = src ? 'url("' + src + '")' : ''; ambient.style.opacity = src ? '' : '0'; }
     resetTilt();
@@ -608,4 +613,89 @@ function startCountdown() {
   });
 
   go(0);
+})();
+
+/* ============ ĐĂNG KÝ THAM DỰ ============ */
+(function rsvpForm() {
+  const form = document.getElementById('rsvpForm');
+  const done = document.getElementById('rsvpDone');
+  if (!form || !done) return;
+  const btn = form.querySelector('.btn-rsvp');
+  const msg = form.querySelector('.rsvp-msg');
+  const KEY = 'leacc-rsvp';
+  const fld = (n) => form.querySelector('[name="' + n + '"]');
+  const $name = fld('name'), $zalo = fld('zalo'), $fb = fld('facebook'), $hp = fld('website');
+
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
+  const store = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} };
+
+  function showDone(name) {
+    done.querySelector('.done-name').textContent = name;
+    form.hidden = true;
+    done.hidden = false;
+  }
+  function setErrors(errors) {
+    form.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+    form.querySelectorAll('.err').forEach((e) => { e.textContent = ''; });
+    Object.keys(errors || {}).forEach((k) => {
+      const e = form.querySelector('.err[data-for="' + k + '"]');
+      if (e) { e.textContent = errors[k]; e.closest('.field').classList.add('invalid'); }
+    });
+    const first = form.querySelector('.field.invalid input');
+    if (first) first.focus();
+  }
+
+  // Đã đăng ký trên máy này -> hiện lời cảm ơn, điền sẵn để sửa
+  const saved = load();
+  if (saved && saved.name) {
+    $name.value = saved.name;
+    $zalo.value = saved.zalo || '';
+    $fb.value = saved.facebook || '';
+    showDone(saved.name);
+  }
+  document.getElementById('rsvpEdit').addEventListener('click', () => {
+    done.hidden = true;
+    form.hidden = false;
+    $name.focus();
+  });
+  form.querySelectorAll('input').forEach((i) => i.addEventListener('input', () => i.closest('.field') && i.closest('.field').classList.remove('invalid')));
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+    const data = {
+      name: $name.value.trim(),
+      zalo: $zalo.value.trim(),
+      facebook: $fb.value.trim(),
+      website: $hp.value
+    };
+    const errs = {};
+    if (data.name.length < 2) errs.name = 'Vui lòng nhập họ tên.';
+    if (!/^(\+?84|0)[\d\s.\-]{8,14}$/.test(data.zalo)) errs.zalo = 'Số Zalo chưa đúng (10 số, bắt đầu bằng 0).';
+    if (Object.keys(errs).length) return setErrors(errs);
+    setErrors({});
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const out = await res.json().catch(() => ({}));
+      if (res.ok && out.ok) {
+        store({ name: data.name, zalo: data.zalo, facebook: data.facebook });
+        showDone(data.name);
+      } else {
+        if (out.errors) setErrors(out.errors);
+        msg.textContent = out.message || 'Chưa gửi được, bạn thử lại giúp mình nhé.';
+      }
+    } catch (err) {
+      msg.textContent = 'Mất kết nối mạng, bạn thử lại giúp mình nhé.';
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
+  });
 })();

@@ -587,6 +587,9 @@
         <!-- nền mờ lấy màu từ ảnh đang xem + hạt kim tuyến -->
         <div class="cf-ambient" aria-hidden="true"></div>
         <div class="cf-sparkles" aria-hidden="true"></div>
+        <!-- số thứ tự cỡ lớn + đèn chiếu phía sau ảnh giữa -->
+        <div class="cf-bignum" aria-hidden="true">01</div>
+        <div class="cf-spot" aria-hidden="true"></div>
         <div class="cf-stage" tabindex="0" aria-label="Album ảnh — vuốt hoặc dùng nút để xem tiếp, bấm ảnh giữa để xem lớn">
           <% photos.forEach((item, i) => { %>
           <figure class="cf-slide" data-i="<%= i %>">
@@ -712,7 +715,59 @@
     </div>
   </section>
 
-  <!-- ---------- 6. BẢN ĐỒ ---------- -->
+  <!-- ---------- 6. ĐĂNG KÝ THAM DỰ (xem danh sách ở /quan-ly) ---------- -->
+  <section id="rsvp">
+    <div class="container">
+      <div class="rsvp-card reveal">
+        <div class="rsvp-intro">
+          <div class="eyebrow">Xác nhận tham dự</div>
+          <h2 class="section-title">Đăng ký tham dự</h2>
+          <p class="rsvp-lead">Nếu Quý vị có thể đến chung vui, xin để lại vài thông tin để Ban Tổ chức chuẩn bị chu đáo và tiện liên lạc.</p>
+          <ul class="rsvp-points">
+            <li><span>✦</span> <%= data.event.dateDisplay %> · <%= data.event.time %></li>
+            <li><span>✦</span> <%= data.event.location %></li>
+            <li><span>✦</span> Gửi lại cùng số Zalo để sửa thông tin</li>
+          </ul>
+        </div>
+
+        <form class="rsvp-form" id="rsvpForm" novalidate>
+          <div class="field">
+            <label for="rsvpName">Họ và tên <b>*</b></label>
+            <input id="rsvpName" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Nguyễn Văn A" required>
+            <small class="err" data-for="name"></small>
+          </div>
+          <div class="field">
+            <label for="rsvpZalo">Số Zalo <b>*</b></label>
+            <input id="rsvpZalo" name="zalo" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="0912 345 678" required>
+            <small class="err" data-for="zalo"></small>
+          </div>
+          <div class="field">
+            <label for="rsvpFb">Link Facebook</label>
+            <input id="rsvpFb" name="facebook" type="url" inputmode="url" maxlength="200" placeholder="facebook.com/ten-cua-ban">
+            <small class="err" data-for="facebook"></small>
+          </div>
+          <!-- ô bẫy chống spam, người dùng không thấy -->
+          <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn-rsvp" type="submit">
+            <span class="txt">Gửi đăng ký</span>
+            <span class="spin" aria-hidden="true"></span>
+          </button>
+          <p class="rsvp-msg" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="rsvp-done" id="rsvpDone" hidden>
+          <div class="done-icon" aria-hidden="true">
+            <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none"/><path fill="none" d="M15 27l7 7 15-16"/></svg>
+          </div>
+          <h3>Cảm ơn <span class="done-name"></span>!</h3>
+          <p>Ban Tổ chức đã nhận được đăng ký của bạn. Hẹn gặp bạn tại <%= data.event.name %> <%= data.event.nameShort %>.</p>
+          <button type="button" class="btn-edit" id="rsvpEdit">Sửa thông tin</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 7. BẢN ĐỒ ---------- -->
   <section id="map">
     <div class="container">
       <div class="center reveal">
@@ -722,6 +777,9 @@
       </div>
       <div class="map-card reveal">
         <div class="map-embed">
+          <% if (data.event.mapEmbed) { %>
+          <iframe src="<%= data.event.mapEmbed %>" title="Bản đồ đến <%= data.event.location %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <% } else { %>
           <div class="map-ph">
             <div class="ph-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.4-7-11a7 7 0 0 1 14 0c0 4.6-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
@@ -729,11 +787,12 @@
             <p><%= data.event.location %></p>
             <span><%= data.event.mapAddress %></span>
           </div>
+          <% } %>
         </div>
         <div class="map-info">
           <div class="map-info-text">
             <h3><%= data.event.location %></h3>
-            <p><%= data.event.mapAddress %></p>
+            <p><%= data.event.mapAddress %><% if (data.event.mapPlusCode) { %> · <span class="map-code"><%= data.event.mapPlusCode %></span><% } %></p>
           </div>
           <a href="<%= data.event.mapUrl %>" target="_blank" rel="noopener" class="btn-map">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.5a1 1 0 0 1-.5-.9V5.4a1 1 0 0 1 1.4-.9L9 6.5m0 13.5l6-3m-6 3V6.5m6 10.5l5.5-2.5a1 1 0 0 0 .5-.9V5.4a1 1 0 0 0-1.4-.9L15 6.5m0 10.5V6.5m0 0L9 6.5"/></svg>
@@ -744,7 +803,7 @@
     </div>
   </section>
 
-  <!-- ---------- 7. LỜI CẢM ƠN ---------- -->
+  <!-- ---------- 8. LỜI CẢM ƠN ---------- -->
   <section id="thanks">
     <div class="container">
       <div class="thanks-inner reveal">

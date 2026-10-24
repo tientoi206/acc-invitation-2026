@@ -4,3 +4,5 @@ node_modules
 *.log
 .env
 .env.local
+data/rsvp.json
+data/rsvp.json.tmp

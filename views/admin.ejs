@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Danh sách đăng ký — Lễ Tri Ân</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#1b4332;--green2:#2d6a4f;--gold:#c9a227;--pale:#e8f5ee;--cream:#fbfaf6;--ink:#1e2a23;--muted:#6b7d74;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{background:linear-gradient(150deg,#12301f,#1b4332 55%,#2d6a4f);color:#f5e9c8;padding:28px 20px 70px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.1rem);}
+  header p{margin-top:6px;color:rgba(255,255,255,.7);font-size:.92rem;}
+  main{padding:0 16px 48px;margin-top:-46px;}
+  .card{background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(27,67,50,.14);border:1px solid rgba(201,162,39,.2);overflow:hidden;}
+  .bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #eef2ef;}
+  .stat{display:flex;align-items:baseline;gap:8px;}
+  .stat b{font-family:'Playfair Display',serif;font-size:2rem;color:var(--green);}
+  .stat span{color:var(--muted);font-size:.9rem;}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;}
+  input[type=search]{padding:10px 14px;border:1px solid #d8e2dc;border-radius:999px;font:inherit;min-width:220px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:var(--green2);color:#f5e9c8;text-decoration:none;font-weight:600;font-size:.88rem;border:none;cursor:pointer;}
+  .btn.ghost{background:#fff;color:var(--green);border:1px solid #d8e2dc;}
+  table{width:100%;border-collapse:collapse;font-size:.93rem;}
+  th,td{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f3f1;vertical-align:top;}
+  th{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;background:#fcfbf7;}
+  td.num{color:var(--muted);width:44px;}
+  td a{color:var(--green2);word-break:break-all;}
+  .zalo{font-variant-numeric:tabular-nums;font-weight:600;}
+  .time{color:var(--muted);font-size:.84rem;white-space:nowrap;}
+  .empty,.note{padding:36px 20px;text-align:center;color:var(--muted);}
+  .err{margin:16px 20px 0;padding:12px 14px;border-radius:10px;background:#fdecef;color:#9b2c45;font-size:.9rem;}
+  .login{max-width:380px;margin:0 auto;padding:30px 24px;}
+  .login h2{font-family:'Playfair Display',serif;color:var(--green);margin-bottom:6px;}
+  .login p{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
+  .login input{width:100%;padding:12px 14px;border:1px solid #d8e2dc;border-radius:12px;font:inherit;margin-bottom:12px;}
+  .login .btn{width:100%;justify-content:center;}
+  .mode{font-size:.78rem;color:var(--muted);padding:12px 20px;background:#fcfbf7;}
+  @media(max-width:640px){
+    thead{display:none;}
+    tr{display:block;padding:12px 16px;border-bottom:1px solid #f0f3f1;}
+    td{display:block;border:none;padding:2px 0;}
+    td.num{display:none;}
+  }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Danh sách đăng ký tham dự</h1>
+  <p>Lễ Tri Ân ACC 2026 · Trang dành cho Ban Tổ chức</p>
+</div></header>
+<main><div class="wrap"><div class="card">
+<% if (rows === null) { %>
+  <form class="login" method="get" action="/quan-ly">
+    <h2>Đăng nhập</h2>
+    <p>Nhập mật khẩu quản lý để xem danh sách.</p>
+    <% if (error) { %><div class="err" style="margin:0 0 12px"><%= error %></div><% } %>
+    <input type="password" name="key" placeholder="Mật khẩu" autofocus required>
+    <button class="btn" type="submit">Xem danh sách</button>
+  </form>
+<% } else { %>
+  <div class="bar">
+    <div class="stat"><b><%= rows.length %></b><span>người đã đăng ký</span></div>
+    <div class="actions">
+      <input type="search" id="q" placeholder="Tìm tên hoặc số Zalo…" aria-label="Tìm kiếm">
+      <a class="btn" href="/quan-ly/danh-sach.csv?key=<%= encodeURIComponent(key) %>">Tải file Excel (CSV)</a>
+      <a class="btn ghost" href="/quan-ly?key=<%= encodeURIComponent(key) %>">Làm mới</a>
+    </div>
+  </div>
+  <% if (error) { %><div class="err"><%= error %></div><% } %>
+  <% if (!rows.length) { %>
+    <div class="empty">Chưa có ai đăng ký.</div>
+  <% } else { %>
+  <table>
+    <thead><tr><th>#</th><th>Họ tên</th><th>Zalo</th><th>Facebook</th><th>Thời gian</th></tr></thead>
+    <tbody id="rows">
+      <% rows.forEach((r, i) => { %>
+      <tr data-s="<%= (r.name + ' ' + r.zalo).toLowerCase() %>">
+        <td class="num"><%= rows.length - i %></td>
+        <td><strong><%= r.name %></strong></td>
+        <td class="zalo"><a href="https://zalo.me/<%= r.zalo %>" target="_blank" rel="noopener"><%= r.zalo %></a></td>
+        <td><% if (r.facebook) { %><a href="<%= r.facebook %>" target="_blank" rel="noopener noreferrer"><%= r.facebook.replace(/^https?:\/\/(www\.|m\.)?/, '') %></a><% } else { %>—<% } %></td>
+        <td class="time"><%= new Date(r.updatedAt || r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } %>
+  <div class="mode">Nơi lưu: <%= mode === 'sheet' ? 'Google Sheet' : mode === 'file' ? 'file data/rsvp.json trên máy' : 'chưa cấu hình' %></div>
+<% } %>
+</div></div></main>
+<script>
+  const q = document.getElementById('q');
+  if (q) q.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase();
+    document.querySelectorAll('#rows tr').forEach((tr) => { tr.style.display = !v || tr.dataset.s.includes(v) ? '' : 'none'; });
+  });
+</script>
+</body>
+</html>
