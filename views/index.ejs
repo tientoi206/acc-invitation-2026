@@ -584,12 +584,8 @@
 
       <!-- Album dạng coverflow 3D: ảnh giữa nổi bật, hai bên nghiêng lùi -->
       <div class="cf reveal pre" id="gallerySlider">
-        <!-- nền mờ lấy màu từ ảnh đang xem + hạt kim tuyến -->
-        <div class="cf-ambient" aria-hidden="true"></div>
-        <div class="cf-sparkles" aria-hidden="true"></div>
-        <!-- số thứ tự cỡ lớn + đèn chiếu phía sau ảnh giữa -->
+        <!-- số thứ tự cỡ lớn phía sau ảnh giữa -->
         <div class="cf-bignum" aria-hidden="true">01</div>
-        <div class="cf-spot" aria-hidden="true"></div>
         <div class="cf-stage" tabindex="0" aria-label="Album ảnh — vuốt hoặc dùng nút để xem tiếp, bấm ảnh giữa để xem lớn">
           <% photos.forEach((item, i) => { %>
           <figure class="cf-slide" data-i="<%= i %>">
@@ -742,8 +738,8 @@
             <small class="err" data-for="zalo"></small>
           </div>
           <div class="field">
-            <label for="rsvpFb">Link Facebook</label>
-            <input id="rsvpFb" name="facebook" type="url" inputmode="url" maxlength="200" placeholder="facebook.com/ten-cua-ban">
+            <label for="rsvpFb">Facebook</label>
+            <input id="rsvpFb" name="facebook" type="text" maxlength="200" placeholder="Tên Facebook hoặc link (không bắt buộc)">
             <small class="err" data-for="facebook"></small>
           </div>
           <!-- ô bẫy chống spam, người dùng không thấy -->

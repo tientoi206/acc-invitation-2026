@@ -84,7 +84,7 @@
         <td class="num"><%= rows.length - i %></td>
         <td><strong><%= r.name %></strong></td>
         <td class="zalo"><a href="https://zalo.me/<%= r.zalo %>" target="_blank" rel="noopener"><%= r.zalo %></a></td>
-        <td><% if (r.facebook) { %><a href="<%= r.facebook %>" target="_blank" rel="noopener noreferrer"><%= r.facebook.replace(/^https?:\/\/(www\.|m\.)?/, '') %></a><% } else { %>—<% } %></td>
+        <td><% if (/^https?:\/\//i.test(r.facebook || '')) { %><a href="<%= r.facebook %>" target="_blank" rel="noopener noreferrer"><%= r.facebook.replace(/^https?:\/\/(www\.|m\.)?/, '') %></a><% } else if (r.facebook) { %><%= r.facebook %><% } else { %>—<% } %></td>
         <td class="time"><%= new Date(r.updatedAt || r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) %></td>
       </tr>
       <% }); %>
