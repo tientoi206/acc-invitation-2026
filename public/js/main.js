@@ -84,7 +84,7 @@ document.body.style.overflow = 'hidden';
     { petal: '#a7e0c0', center: '#f5e9c8' }, // xanh mint
     { petal: '#f5e9c8', center: '#c9a227' }, // kem
   ];
-  const count = window.innerWidth < 640 ? 16 : 30;
+  const count = window.innerWidth < 640 ? 8 : 16;   // hoa rơi: ít lại cho cuộn mượt
 
   // SVG bông hoa 4 cánh: 4 ellipse xoay quanh tâm + nhụy tròn
   function flowerSVG(size, petal, center) {
@@ -128,7 +128,7 @@ document.body.style.overflow = 'hidden';
   // Lá bay
   const leafWrap = opening.querySelector('.leaves');
   if (leafWrap) {
-    const leafCount = window.innerWidth < 640 ? 10 : 20;
+    const leafCount = window.innerWidth < 640 ? 5 : 10;
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('div');
       leaf.className = 'leaf';
@@ -150,7 +150,7 @@ document.body.style.overflow = 'hidden';
   // Đom đóm
   const ffWrap = opening.querySelector('.fireflies');
   if (ffWrap) {
-    const ffCount = window.innerWidth < 640 ? 12 : 24;
+    const ffCount = window.innerWidth < 640 ? 6 : 12;
     for (let i = 0; i < ffCount; i++) {
       const ff = document.createElement('div');
       ff.className = 'ff';

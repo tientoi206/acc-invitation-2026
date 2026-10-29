@@ -422,7 +422,7 @@
 <!-- 👉 Thêm nhạc: thả 1 file .mp3 vào public/music/ là xong (server tự nhận).
      Phát khi bấm mở cổng, lặp suốt lúc xem thiệp. Không có file thì ẩn nút nhạc. -->
 <% if (typeof musicSrc !== 'undefined' && musicSrc) { %>
-<audio id="bgMusic" loop preload="auto" playsinline src="<%= musicSrc %>" data-start="<%= Number(data.features.musicStart) || 0 %>"></audio>
+<audio id="bgMusic" loop preload="none" playsinline src="<%= musicSrc %>" data-start="<%= Number(data.features.musicStart) || 0 %>"></audio>
 <button class="music-toggle paused" id="musicBtn" aria-label="Bật/tắt nhạc nền" title="Bật/tắt nhạc nền">
   <div class="bars"><span></span><span></span><span></span></div>
 </button>

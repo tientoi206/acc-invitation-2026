@@ -204,7 +204,10 @@ body::before{
 #opening.is-opening .gate-shine{opacity:0;transition:opacity .3s;}
 
 /* Khóm hoa trong luống đung đưa theo gió, mỗi nhóm một nhịp */
-.gate-ground .sway{transform-box:fill-box;transform-origin:50% 100%;animation:flowerSway 4s ease-in-out infinite;}
+/* Chỉ ~1/4 số khóm hoa đung đưa (nhóm s1) cho nhẹ máy; điện thoại thì đứng yên */
+.gate-ground .sway{transform-box:fill-box;transform-origin:50% 100%;}
+.gate-ground .sway.s1{animation:flowerSway 4s ease-in-out infinite;}
+@media(max-width:720px),(prefers-reduced-motion:reduce){.gate-ground .sway.s1{animation:none;}}
 .gate-ground .s2{animation-duration:4.8s;animation-delay:-1.2s;}
 .gate-ground .s3{animation-duration:3.6s;animation-delay:-2.1s;}
 .gate-ground .s4{animation-duration:5.4s;animation-delay:-.6s;}
