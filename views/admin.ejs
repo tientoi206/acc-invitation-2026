@@ -33,6 +33,10 @@
   td a{color:var(--green2);word-break:break-all;}
   .zalo{font-variant-numeric:tabular-nums;font-weight:600;}
   .time{color:var(--muted);font-size:.84rem;white-space:nowrap;}
+  .khoa{color:#40514a;font-size:.88rem;max-width:260px;}
+  .tag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:.72rem;font-weight:600;vertical-align:1px;}
+  .tag.m{background:#e3f0fb;color:#2b6cb0;}
+  .tag.f{background:#fde8ef;color:#b83262;}
   .empty,.note{padding:36px 20px;text-align:center;color:var(--muted);}
   .err{margin:16px 20px 0;padding:12px 14px;border-radius:10px;background:#fdecef;color:#9b2c45;font-size:.9rem;}
   .login{max-width:380px;margin:0 auto;padding:30px 24px;}
@@ -67,7 +71,7 @@
   <div class="bar">
     <div class="stat"><b><%= rows.length %></b><span>người đã đăng ký</span></div>
     <div class="actions">
-      <input type="search" id="q" placeholder="Tìm tên hoặc số Zalo…" aria-label="Tìm kiếm">
+      <input type="search" id="q" placeholder="Tìm tên, số Zalo, khóa…" aria-label="Tìm kiếm">
       <a class="btn" href="/quan-ly/danh-sach.csv?key=<%= encodeURIComponent(key) %>">Tải file Excel (CSV)</a>
       <a class="btn ghost" href="/quan-ly?key=<%= encodeURIComponent(key) %>">Làm mới</a>
     </div>
@@ -77,14 +81,15 @@
     <div class="empty">Chưa có ai đăng ký.</div>
   <% } else { %>
   <table>
-    <thead><tr><th>#</th><th>Họ tên</th><th>Zalo</th><th>Facebook</th><th>Thời gian</th></tr></thead>
+    <thead><tr><th>#</th><th>Họ tên</th><th>Zalo</th><th>Facebook</th><th>Sinh hoạt / BĐD khóa</th><th>Thời gian</th></tr></thead>
     <tbody id="rows">
       <% rows.forEach((r, i) => { %>
-      <tr data-s="<%= (r.name + ' ' + r.zalo).toLowerCase() %>">
+      <tr data-s="<%= (r.name + ' ' + r.zalo + ' ' + (r.khoa || '')).toLowerCase() %>">
         <td class="num"><%= rows.length - i %></td>
-        <td><strong><%= r.name %></strong></td>
+        <td><strong><%= r.name %></strong><% if (r.gender) { %> <span class="tag <%= r.gender === 'Nữ' ? 'f' : 'm' %>"><%= r.gender %></span><% } %></td>
         <td class="zalo"><a href="https://zalo.me/<%= r.zalo %>" target="_blank" rel="noopener"><%= r.zalo %></a></td>
         <td><% if (/^https?:\/\//i.test(r.facebook || '')) { %><a href="<%= r.facebook %>" target="_blank" rel="noopener noreferrer"><%= r.facebook.replace(/^https?:\/\/(www\.|m\.)?/, '') %></a><% } else if (r.facebook) { %><%= r.facebook %><% } else { %>—<% } %></td>
+        <td class="khoa"><%= r.khoa || '—' %></td>
         <td class="time"><%= new Date(r.updatedAt || r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) %></td>
       </tr>
       <% }); %>

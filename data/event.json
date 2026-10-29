@@ -17,55 +17,64 @@
     "durationHours": 3.5,
     "mapPlusCode": "RQRJ+MC"
   },
+  "party": {
+    "label": "Tiệc mừng",
+    "name": "",
+    "address": "",
+    "time": "10:30",
+    "mapUrl": "",
+    "mapEmbed": "",
+    "_ghiChu": "Điền tên quán (name), địa chỉ (address). mapUrl = link Google Maps của quán; mapEmbed = link nhúng (Google Maps > Chia sẻ > Nhúng bản đồ > copy phần src). Để trống thì thiệp hiện “Sẽ cập nhật”."
+  },
   "features": {
     "musicFile": "",
     "musicStart": 5,
     "openLetter": ""
   },
   "invitation": {
-    "lead": "Kính gửi Quý Thầy Cô, Quý Phụ Huynh và Các Bạn Sinh Viên,",
+    "lead": "Anh chị thân mến!",
     "paragraphs": [
-      "Trong bầu khí thiêng liêng của Chúa Thánh Thần, Sinh Viên Công Giáo Thánh Linh hân hạnh được gửi đến Quý vị lời mời tham dự Lễ Tri Ân ACC 2026 — một buổi lễ để cùng nhau tạ ơn Thiên Chúa vì một năm hồng ân, và để tri ân những người đã đồng hành, nâng đỡ chúng con trên hành trình đức tin và tri thức.",
-      "Sự hiện diện của Quý vị là niềm vinh hạnh và là món quà quý giá dành cho cộng đoàn chúng con. Kính mong Quý vị sắp xếp thời gian để cùng chia sẻ niềm vui trong ngày trọng đại này."
+      "33 năm - một hành trình dài được dệt nên từ đức tin, nhưng đủ để Gia Đình Thánh Linh viết nên biết bao câu chuyện của tình huynh đệ, những cuộc gặp gỡ và trên hết là những dấu ấn của một hành trình được Thiên Chúa yêu thương và đồng hành.",
+      "Với chủ đề “MỞ TÌNH THÂN - GỬI TRI ÂN”, chúng ta cùng mở lòng nhìn lại hành trình đã qua, mở lối cho những cuộc gặp gỡ hội ngộ và tiếp nối tình thân giữa các thế hệ.",
+      "Trong tâm tình tạ ơn Thiên Chúa, Gia đình Thánh Linh trân trọng kính mời quý Cha, quý Anh Chị Cựu cùng trở về, gặp gỡ và sẻ chia trong ngày Lễ Tri Ân này. Ước mong sự hiện diện của quý vị sẽ làm nên một ngày hội ngộ đầy yêu thương, để Thánh Linh mãi là mái nhà chung - nơi chúng ta thuộc về."
     ]
   },
   "schedule": [
     {
-      "time": "07:00",
-      "title": "Đón tiếp & ổn định chỗ ngồi",
-      "desc": "Ban Tổ chức đón tiếp Quý khách, nhận quà lưu niệm và check-in."
+      "time": "7h15 – 8h15",
+      "title": "Đón tiếp và xưng tội",
+      "desc": "Đón tiếp Anh, Chị và chuẩn bị tâm hồn để tham dự Thánh lễ."
     },
     {
-      "time": "07:15",
-      "title": "Thánh Lễ Tạ Ơn",
-      "desc": "Cùng hiệp dâng Thánh Lễ tạ ơn Thiên Chúa vì một năm hồng ân."
+      "time": "8h15 – 8h30",
+      "title": "Tập hát",
+      "desc": "Cùng nhau tập các bài hát để hiệp thông trong Thánh lễ."
     },
     {
-      "time": "08:30",
-      "title": "Khai mạc & Lời tri ân",
-      "desc": "Phát biểu khai mạc, nhìn lại hành trình ACC và gửi lời tri ân."
+      "time": "8h30 – 10h00",
+      "title": "Thánh lễ",
+      "desc": "Cùng nhau tham dự Thánh lễ trong tâm tình tạ ơn và cầu nguyện."
     },
     {
-      "time": "09:00",
-      "title": "Chương trình văn nghệ",
-      "desc": "Những tiết mục ca múa, hoạt cảnh do các bạn sinh viên thực hiện."
+      "time": "10h00 – 10h30",
+      "title": "Chụp hình và di chuyển",
+      "desc": "Lưu lại những khoảnh khắc kỷ niệm và di chuyển đến địa điểm tổ chức tiệc."
     },
     {
-      "time": "10:00",
-      "title": "Trao quà tri ân",
-      "desc": "Trao quà tri ân Quý Thầy Cô, Quý ân nhân và các anh chị đồng hành."
-    },
-    {
-      "time": "10:30",
-      "title": "Chụp ảnh lưu niệm & Bế mạc",
-      "desc": "Chụp ảnh cùng nhau, dùng tiệc nhẹ và khép lại buổi lễ."
+      "time": "10h30",
+      "title": "Có mặt tại quán và bắt đầu tiệc mừng",
+      "desc": "Cùng nhau dùng tiệc, giao lưu và chia sẻ niềm vui trong bầu khí thân mật."
     }
   ],
   "thanks": {
-    "quote": "Lạy Chúa Thánh Thần, xin Ngài ngự đến và đổi mới tâm hồn chúng con, để mỗi ngày chúng con biết sống trọn vẹn ơn gọi và sứ mạng mà Ngài đã trao ban.",
+    "paragraphs": [
+      "Gia đình Thánh Linh xin gửi lời tri ân đến quý Cha, quý Anh Chị Cựu đã luôn yêu thương, đồng hành và góp phần xây dựng nhóm qua từng chặng đường. Và giờ là lúc quý Cha, quý Anh Chị Cựu được trở về, một dịp trở về như đã in sâu trong tiềm thức của quý vị, tất cả cùng hướng lòng về nơi mà mình đã sống “một thời trọn vẹn cả một đời”. Từ những cô cậu bé ngày ấy, hun đúc nên tinh thần Thánh Linh hôm nay.",
+      "Nguyện xin Thiên Chúa luôn đồng hành, để ngày gặp gỡ của chúng ta trở thành một bữa tiệc của tình thân, của niềm vui và của Đức Tin. Cầu mong mỗi bước đi của Gia đình Thánh Linh sẽ mãi in dấu trong hành trình hiệp thông, yêu thương và phục vụ."
+    ],
     "signature": "Sinh Viên Công Giáo Thánh Linh",
     "role": "Ban Tổ chức Lễ Tri Ân ACC 2026"
   },
+  "galleryMax": 9,
   "gallery": [
     {
       "image": "",
@@ -90,6 +99,18 @@
     {
       "image": "",
       "caption": "Khoảnh khắc 6"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 7"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 8"
+    },
+    {
+      "image": "",
+      "caption": "Khoảnh khắc 9"
     }
   ]
 }

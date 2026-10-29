@@ -71,21 +71,25 @@ function faviconInfo() {
   }
 }
 
-// Album: nếu data/event.json chưa gắn ảnh nào thì tự lấy mọi ảnh trong
-// public/images/gallery/ (xếp theo tên). Không có ảnh thì giữ ô trống mẫu.
+// Album: nếu data/event.json chưa gắn ảnh nào thì tự lấy ảnh trong public/images/gallery/
+// và public/images/ (bỏ qua favicon), xếp theo tên, tối đa "galleryMax" ảnh (mặc định 9).
+// Không có ảnh thì giữ ô trống mẫu.
 const PHOTO_EXT = /\.(jpe?g|png|webp|avif|gif)$/i;
 function galleryItems(data) {
   const list = Array.isArray(data.gallery) ? data.gallery : [];
   if (list.some((g) => g.image)) return list.filter((g) => g.image);
-  try {
-    const dir = path.join(__dirname, 'public', 'images', 'gallery');
-    const files = fs.readdirSync(dir).filter((f) => PHOTO_EXT.test(f))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-    if (files.length) {
-      return files.map((f) => ({ image: '/public/images/gallery/' + encodeURIComponent(f), caption: '' }));
-    }
-  } catch (e) {}
-  return list;
+  const max = Number(data.galleryMax) || 9;
+  const found = [];
+  for (const sub of ['gallery', '']) {
+    try {
+      const dir = path.join(__dirname, 'public', 'images', sub);
+      fs.readdirSync(dir)
+        .filter((f) => PHOTO_EXT.test(f) && !/^favicon\./i.test(f))
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+        .forEach((f) => found.push({ image: '/public/images/' + (sub ? sub + '/' : '') + encodeURIComponent(f), caption: '' }));
+    } catch (e) {}
+  }
+  return found.length ? found.slice(0, max) : list;
 }
 
 // Trình duyệt hay tự gọi /favicon.ico -> chuyển sang ảnh favicon nếu có
@@ -170,8 +174,8 @@ app.get('/quan-ly/danh-sach.csv', async (req, res) => {
   if (!checkKey(req, res)) return;
   const rows = await rsvp.list();
   const esc = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
-  const csv = ['Thời gian,Họ tên,Zalo,Facebook']
-    .concat(rows.map((r) => [new Date(r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }), r.name, "'" + r.zalo, r.facebook].map(esc).join(',')))
+  const csv = ['Thời gian,Họ tên,Giới tính,Zalo,Facebook,Sinh hoạt / BĐD khóa']
+    .concat(rows.map((r) => [new Date(r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }), r.name, r.gender || '', "'" + r.zalo, r.facebook, r.khoa || ''].map(esc).join(',')))
     .join('\r\n');
   res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="dang-ky-le-tri-an.csv"', 'Cache-Control': 'no-store' });
   res.send('﻿' + csv); // BOM để Excel đọc đúng tiếng Việt

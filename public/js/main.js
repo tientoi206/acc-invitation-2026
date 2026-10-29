@@ -624,13 +624,19 @@ function startCountdown() {
   const msg = form.querySelector('.rsvp-msg');
   const KEY = 'leacc-rsvp';
   const fld = (n) => form.querySelector('[name="' + n + '"]');
-  const $name = fld('name'), $zalo = fld('zalo'), $fb = fld('facebook'), $hp = fld('website');
+  const $name = fld('name'), $zalo = fld('zalo'), $fb = fld('facebook'), $hp = fld('website'), $khoa = fld('khoa');
+  const genderVal = () => { const g = form.querySelector('[name="gender"]:checked'); return g ? g.value : ''; };
+  const setGender = (v) => form.querySelectorAll('[name="gender"]').forEach((r) => { r.checked = r.value === v; });
+  // Tên gọi = chữ cuối của họ tên (Nguyễn Văn Khang -> Khang)
+  const givenName = (full) => { const w = String(full).trim().split(/\s+/); return w[w.length - 1] || full; };
 
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
   const store = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} };
 
-  function showDone(name) {
-    done.querySelector('.done-name').textContent = name;
+  function showDone(name, gender) {
+    const pron = gender === 'nu' ? 'chị' : 'anh';
+    done.querySelectorAll('.done-pron').forEach((el) => { el.textContent = pron; });
+    done.querySelector('.done-name').textContent = givenName(name);
     form.hidden = true;
     done.hidden = false;
   }
@@ -641,7 +647,7 @@ function startCountdown() {
       const e = form.querySelector('.err[data-for="' + k + '"]');
       if (e) { e.textContent = errors[k]; e.closest('.field').classList.add('invalid'); }
     });
-    const first = form.querySelector('.field.invalid input');
+    const first = form.querySelector('.field.invalid input, .field.invalid textarea');
     if (first) first.focus();
   }
 
@@ -651,14 +657,16 @@ function startCountdown() {
     $name.value = saved.name;
     $zalo.value = saved.zalo || '';
     $fb.value = saved.facebook || '';
-    showDone(saved.name);
+    $khoa.value = saved.khoa || '';
+    setGender(saved.gender || '');
+    showDone(saved.name, saved.gender);
   }
   document.getElementById('rsvpEdit').addEventListener('click', () => {
     done.hidden = true;
     form.hidden = false;
     $name.focus();
   });
-  form.querySelectorAll('input').forEach((i) => i.addEventListener('input', () => i.closest('.field') && i.closest('.field').classList.remove('invalid')));
+  form.querySelectorAll('input, textarea').forEach((i) => i.addEventListener('input', () => i.closest('.field') && i.closest('.field').classList.remove('invalid')));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -667,10 +675,13 @@ function startCountdown() {
       name: $name.value.trim(),
       zalo: $zalo.value.trim(),
       facebook: $fb.value.trim(),
+      gender: genderVal(),
+      khoa: $khoa.value.trim(),
       website: $hp.value
     };
     const errs = {};
     if (data.name.length < 2) errs.name = 'Vui lòng nhập họ tên.';
+    if (!data.gender) errs.gender = 'Vui lòng chọn Nam hoặc Nữ.';
     if (!/^(\+?84|0)[\d\s.\-]{8,14}$/.test(data.zalo)) errs.zalo = 'Số Zalo chưa đúng (10 số, bắt đầu bằng 0).';
     if (Object.keys(errs).length) return setErrors(errs);
     setErrors({});
@@ -685,8 +696,8 @@ function startCountdown() {
       });
       const out = await res.json().catch(() => ({}));
       if (res.ok && out.ok) {
-        store({ name: data.name, zalo: data.zalo, facebook: data.facebook });
-        showDone(data.name);
+        store({ name: data.name, gender: data.gender, zalo: data.zalo, facebook: data.facebook, khoa: data.khoa });
+        showDone(data.name, data.gender);
       } else {
         if (out.errors) setErrors(out.errors);
         msg.textContent = out.message || 'Chưa gửi được, bạn thử lại giúp mình nhé.';
@@ -699,3 +710,8 @@ function startCountdown() {
     }
   });
 })();
+
+/* Menu "Chỉ đường": bấm ra ngoài thì đóng */
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('details.dir-menu[open]').forEach((d) => { if (!d.contains(e.target)) d.removeAttribute('open'); });
+});

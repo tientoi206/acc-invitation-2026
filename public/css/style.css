@@ -316,11 +316,9 @@ body::before{
   padding-left:.34em;
 }
 /* Hoa văn hai bên dòng phụ */
-.op-flourish{
-  width:clamp(36px,8vw,72px);height:12px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 12'%3E%3Cpath d='M2 6 H52 M52 6 C58 0 64 0 66 6 C64 12 58 12 52 6' stroke='%23c9a227' stroke-width='1.3' fill='none'/%3E%3Ccircle cx='69' cy='6' r='2' fill='%23c9a227'/%3E%3C/svg%3E") center/100% 100% no-repeat;
-}
-.op-flourish:not(.flip){transform:scaleX(-1);}
+/* hai cành nguyệt quế vàng đối xứng hai bên chữ */
+.op-laurel{width:clamp(44px,9vw,72px);height:auto;color:#c9a227;flex:0 0 auto;filter:drop-shadow(0 1px 4px rgba(255,255,255,.9));}
+.op-laurel:not(.is-right){transform:scaleX(-1);}
 
 /* Lấp lánh quanh tiêu đề */
 .op-spark{position:absolute;color:#d4af37;font-size:clamp(.8rem,1.8vw,1.15rem);text-shadow:0 0 8px rgba(255,236,170,.95);animation:twinkle 2.8s ease-in-out infinite;}
@@ -416,6 +414,9 @@ section{padding:clamp(64px,10vw,120px) 20px;}
   margin-bottom:18px;
 }
 .eyebrow::before{content:"";width:32px;height:1px;background:var(--green-mid);opacity:.6;}
+/* thêm gạch ngang bên phải (dùng cho dòng nhỏ được căn giữa) */
+.eyebrow.lined::after{content:"";width:32px;height:1px;background:currentColor;opacity:.6;}
+.eyebrow.lined{padding-left:0;}
 h2.section-title{
   font-family:'Playfair Display',serif;
   font-weight:700;
@@ -997,14 +998,39 @@ h2.section-title{
 .rsvp-done h3{margin-top:18px;font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--green-deep);}
 .rsvp-done p{margin-top:8px;color:#5b6d64;max-width:340px;}
 .btn-edit{margin-top:20px;padding:10px 22px;border-radius:999px;border:1px solid rgba(201,162,39,.55);background:#fff;color:var(--green-deep);font-weight:600;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;}
+/* căn giữa khối giới thiệu, tiêu đề 1 dòng */
+.rsvp-intro{text-align:center;display:flex;flex-direction:column;justify-content:center;}
+.rsvp-title{white-space:nowrap;font-size:clamp(1.55rem,3.3vw,2.4rem);}
+.rsvp-points{justify-items:center;}
+/* chọn Nam / Nữ */
+.field .label{display:block;font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green-mid);margin-bottom:8px;}
+.field .label b{color:#c2556f;}
+.gender{display:flex;gap:10px;}
+.pill{flex:1;position:relative;cursor:pointer;}
+.pill input{position:absolute;opacity:0;pointer-events:none;}
+.pill span{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border-radius:14px;
+  border:1.5px solid #dbe5df;background:#fbfdfc;font-weight:500;color:#40514a;transition:all .25s;}
+.pill span::before{content:"";width:14px;height:14px;border-radius:50%;border:1.5px solid #b8c6be;transition:all .25s;}
+.pill input:checked + span{border-color:var(--gold);background:#fffaf0;color:var(--green-deep);box-shadow:0 0 0 4px rgba(201,162,39,.14);}
+.pill input:checked + span::before{border-color:var(--gold);background:radial-gradient(circle,var(--gold) 0 45%,transparent 50%);}
+.pill input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px;}
+.field.invalid .pill span{border-color:#d05b78;}
+.field textarea{
+  width:100%;padding:14px 16px;border-radius:14px;font:inherit;font-size:1rem;color:var(--ink);resize:vertical;min-height:84px;
+  border:1.5px solid #dbe5df;background:#fbfdfc;transition:border-color .25s,box-shadow .25s,background .25s;
+}
+.field textarea::placeholder{color:#a5b3ab;}
+.field textarea:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 4px rgba(201,162,39,.16);}
 @media(max-width:760px){
   .rsvp-card{grid-template-columns:1fr;}
 }
 
 /* ===================== 7. BẢN ĐỒ ===================== */
 #map{background:var(--cream);}
+/* hai thẻ bản đồ: Thánh lễ + Tiệc mừng */
+.map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:48px;}
 .map-card{
-  margin-top:48px;
+  position:relative;display:flex;flex-direction:column;
   border-radius:var(--radius);
   overflow:hidden;
   box-shadow:var(--shadow-md);
@@ -1055,13 +1081,44 @@ h2.section-title{
 }
 .btn-map:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(45,106,79,.4);}
 .btn-map svg{width:18px;height:18px;}
+.btn-map.is-off{background:#eef2ef;color:#8a9a91;box-shadow:none;cursor:default;}
+.btn-map.is-off:hover{transform:none;}
+.map-tag{position:absolute;z-index:2;top:14px;left:14px;padding:6px 14px;border-radius:999px;
+  font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-soft);background:rgba(27,67,50,.88);box-shadow:0 6px 16px rgba(0,0,0,.15);}
+.map-card .map-info{flex:1;}
+@media(max-width:860px){.map-grid{grid-template-columns:1fr;}}
+
+/* Menu "Chỉ đường" 2 địa điểm (phần chi tiết) */
+.dir-menu{position:relative;}
+.dir-menu summary{list-style:none;cursor:pointer;}
+.dir-menu summary::-webkit-details-marker{display:none;}
+.dir-menu .caret{width:14px;height:14px;transition:transform .3s;}
+.dir-menu[open] .caret{transform:rotate(180deg);}
+.dir-list{position:absolute;z-index:20;top:calc(100% + 8px);left:0;min-width:240px;padding:8px;
+  background:#fff;border-radius:16px;border:1px solid rgba(201,162,39,.35);box-shadow:0 18px 40px rgba(27,67,50,.18);
+  animation:dirIn .25s var(--ease);}
+@keyframes dirIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.dir-list a,.dir-off{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:10px;text-decoration:none;}
+.dir-list a:hover{background:var(--green-pale);}
+.dir-list b{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.dir-list span{font-size:.92rem;color:var(--green-deep);font-weight:500;}
+.dir-off{opacity:.55;}
+.when-place.is-pending{font-style:italic;font-weight:500;color:#8a9a91;}
 
 /* ===================== 8. LỜI CẢM ƠN ===================== */
 #thanks{
   background:linear-gradient(180deg,var(--green-pale),var(--cream));
   text-align:center;position:relative;overflow:hidden;
 }
-.thanks-inner{max-width:680px;margin:0 auto;position:relative;z-index:1;}
+.thanks-inner{max-width:760px;margin:0 auto;position:relative;z-index:1;}
+/* đoạn văn lời cảm ơn (căn giữa) */
+.thanks-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.75;
+  color:var(--green-deep);margin-bottom:18px;text-align:center;
+}
+.thanks-text:last-of-type{margin-bottom:30px;}
 .thanks-quote{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;

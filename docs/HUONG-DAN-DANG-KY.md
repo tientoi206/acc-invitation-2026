@@ -45,3 +45,17 @@ Xong! Mỗi lượt đăng ký sẽ hiện ngay trong Google Sheet, và cả ở
 
 > Nếu sau này sửa code script, nhớ **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**
 > để giữ nguyên link Web App.
+
+## Cập nhật script (khi thiệp thêm câu hỏi mới)
+
+Thiệp đã thêm 2 câu: **Giới tính (Nam/Nữ)** và **Sinh hoạt / BĐD khóa nào**.
+Nếu bạn đã cài script từ trước, làm 1 lần:
+
+1. Mở Google Sheet → **Tiện ích mở rộng → Apps Script**.
+2. Xoá hết code cũ, dán lại toàn bộ nội dung mới của `docs/google-sheet-dang-ky.gs`, bấm 💾 Lưu.
+3. **Triển khai → Quản lý các bản triển khai** → bấm ✏️ (Chỉnh sửa) ở bản đang chạy →
+   ô **Phiên bản** chọn **Phiên bản mới** → **Triển khai**.
+   (Làm đúng cách này thì link Web App giữ nguyên, không cần sửa gì trên Vercel.)
+
+Script mới tự thêm 2 cột *Giới tính* và *Sinh hoạt / BĐD khóa* vào cuối trang tính `DangKy`,
+dữ liệu cũ vẫn giữ nguyên.
