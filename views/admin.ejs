@@ -11,6 +11,7 @@
 <style>
   :root{--green:#1b4332;--green2:#2d6a4f;--gold:#c9a227;--pale:#e8f5ee;--cream:#fbfaf6;--ink:#1e2a23;--muted:#6b7d74;}
   *{box-sizing:border-box;margin:0;padding:0;}
+  html{font-variant-numeric:lining-nums;}
   body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
   header{background:linear-gradient(150deg,#12301f,#1b4332 55%,#2d6a4f);color:#f5e9c8;padding:28px 20px 70px;}
   .wrap{max-width:1000px;margin:0 auto;}
@@ -31,7 +32,7 @@
   th{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;background:#fcfbf7;}
   td.num{color:var(--muted);width:44px;}
   td a{color:var(--green2);word-break:break-all;}
-  .zalo{font-variant-numeric:tabular-nums;font-weight:600;}
+  .zalo{font-variant-numeric:lining-nums tabular-nums;font-weight:600;}
   .time{color:var(--muted);font-size:.84rem;white-space:nowrap;}
   .khoa{color:#40514a;font-size:.88rem;max-width:260px;}
   .tag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:.72rem;font-weight:600;vertical-align:1px;}
@@ -71,7 +72,7 @@
   <div class="bar">
     <div class="stat"><b><%= rows.length %></b><span>người đã đăng ký</span></div>
     <div class="actions">
-      <input type="search" id="q" placeholder="Tìm tên, số Zalo, khóa…" aria-label="Tìm kiếm">
+      <input type="search" id="q" placeholder="Tìm tên, số Zalo, năm…" aria-label="Tìm kiếm">
       <a class="btn" href="/quan-ly/danh-sach.csv?key=<%= encodeURIComponent(key) %>">Tải file Excel (CSV)</a>
       <a class="btn ghost" href="/quan-ly?key=<%= encodeURIComponent(key) %>">Làm mới</a>
     </div>
@@ -81,7 +82,7 @@
     <div class="empty">Chưa có ai đăng ký.</div>
   <% } else { %>
   <table>
-    <thead><tr><th>#</th><th>Họ tên</th><th>Zalo</th><th>Facebook</th><th>Sinh hoạt / BĐD khóa</th><th>Thời gian</th></tr></thead>
+    <thead><tr><th>#</th><th>Họ tên</th><th>Zalo</th><th>Facebook</th><th>Sinh hoạt / BĐD năm</th><th>Thời gian</th></tr></thead>
     <tbody id="rows">
       <% rows.forEach((r, i) => { %>
       <tr data-s="<%= (r.name + ' ' + r.zalo + ' ' + (r.khoa || '')).toLowerCase() %>">

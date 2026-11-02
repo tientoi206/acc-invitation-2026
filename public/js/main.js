@@ -422,34 +422,59 @@ function startCountdown() {
     if (e.key === 'Enter') openLightbox(active);
   });
 
-  // Kéo / vuốt: ảnh đi theo tay, thả ra thì về ảnh gần nhất
-  let startX = null, moved = 0, downSlide = null;
+  // Kéo / vuốt: ảnh đi theo tay, thả ra thì về ảnh gần nhất.
+  // Chống chuyển ảnh nhầm trên điện thoại:
+  //  - chạm 2 ngón (phóng to) -> huỷ vuốt, không đổi ảnh
+  //  - trang đang được phóng to (visualViewport.scale > 1) -> không vuốt/không chạm đổi ảnh
+  //  - chỉ tính là vuốt khi kéo ngang rõ ràng (> 40px và chủ yếu theo chiều ngang)
+  const pointers = new Set();
+  let startX = null, startY = 0, moved = 0, movedY = 0, downSlide = null, downAt = 0, multi = false;
+  const pageZoomed = () => !!(window.visualViewport && window.visualViewport.scale > 1.05);
+  const isSwipe = () => Math.abs(moved) > 40 && Math.abs(moved) > Math.abs(movedY) * 1.5;
+  function cancelDrag() {
+    if (stage.classList.contains('dragging')) layout(active);
+    stage.classList.remove('dragging');
+    startX = null;
+  }
   stage.addEventListener('pointerdown', (e) => {
-    startX = e.clientX; moved = 0;
+    pointers.add(e.pointerId);
+    if (pointers.size > 1 || pageZoomed()) { multi = true; cancelDrag(); return; }
+    startX = e.clientX; startY = e.clientY; moved = 0; movedY = 0; downAt = Date.now();
     downSlide = e.target.closest('.cf-slide');
-    stage.setPointerCapture(e.pointerId);
+    if (e.pointerType === 'mouse') stage.setPointerCapture(e.pointerId);
   });
   stage.addEventListener('pointermove', (e) => {
-    if (startX === null) return;
+    if (startX === null || multi) return;
     moved = e.clientX - startX;
-    if (Math.abs(moved) > 6) {
+    movedY = e.clientY - startY;
+    if (Math.abs(moved) > 10 && Math.abs(moved) > Math.abs(movedY)) {
       stage.classList.add('dragging');
       resetTilt();
       layout(active - moved / (slides[0].offsetWidth * gapFactor()));
     }
   });
-  stage.addEventListener('pointerup', () => {
+  function endPointer(e) {
+    pointers.delete(e.pointerId);
+    if (multi) { if (!pointers.size) multi = false; return; }
     if (startX === null) return;
-    const wasDrag = Math.abs(moved) > 6;
+    const dragged = stage.classList.contains('dragging');
     stage.classList.remove('dragging');
     startX = null;
-    if (wasDrag) { go(Math.round(active - moved / (slides[0].offsetWidth * gapFactor()))); return; }
-    // bấm (không kéo): ảnh bên -> chuyển tới; ảnh giữa -> xem lớn
-    if (!downSlide) return;
+    if (isSwipe()) {
+      // cảm ứng: mỗi lần vuốt chỉ qua 1 ảnh; chuột kéo thì theo quãng kéo
+      const steps = Math.round(moved / (slides[0].offsetWidth * gapFactor()));
+      const n = e.pointerType === 'mouse' ? (steps || Math.sign(moved)) : Math.sign(moved);
+      go(active - n);
+      return;
+    }
+    if (dragged) { layout(active); return; }
+    // chạm nhanh, gần như không di chuyển: ảnh bên -> chuyển tới; ảnh giữa -> xem lớn
+    if (Math.abs(moved) > 8 || Math.abs(movedY) > 8 || Date.now() - downAt > 500 || !downSlide) return;
     const i = +downSlide.dataset.i;
     if (i === active) openLightbox(i); else go(i);
-  });
-  stage.addEventListener('pointercancel', () => { startX = null; stage.classList.remove('dragging'); layout(active); });
+  }
+  stage.addEventListener('pointerup', endPointer);
+  stage.addEventListener('pointercancel', (e) => { pointers.delete(e.pointerId); if (!pointers.size) multi = false; cancelDrag(); });
 
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer && !reduce) {
@@ -604,9 +629,14 @@ function startCountdown() {
     if (e.key === ' ') { e.preventDefault(); setSlideshow(!slideshow); }
   });
   let lbX = null;
-  lb.addEventListener('touchstart', (e) => { lbX = e.touches[0].clientX; }, { passive: true });
+  let lbMulti = false;
+  lb.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 1) { lbMulti = true; lbX = null; return; }
+    lbX = e.touches[0].clientX;
+  }, { passive: true });
   lb.addEventListener('touchend', (e) => {
-    if (lbX === null || lbMedia.classList.contains('zoomed')) { lbX = null; return; }
+    if (lbMulti) { if (!e.touches.length) lbMulti = false; lbX = null; return; }
+    if (lbX === null || lbMedia.classList.contains('zoomed') || (window.visualViewport && window.visualViewport.scale > 1.05)) { lbX = null; return; }
     const dx = e.changedTouches[0].clientX - lbX;
     if (Math.abs(dx) > 50) showLb(lbIndex + (dx < 0 ? 1 : -1));
     lbX = null;
@@ -711,7 +741,3 @@ function startCountdown() {
   });
 })();
 
-/* Menu "Chỉ đường": bấm ra ngoài thì đóng */
-document.addEventListener('click', (e) => {
-  document.querySelectorAll('details.dir-menu[open]').forEach((d) => { if (!d.contains(e.target)) d.removeAttribute('open'); });
-});

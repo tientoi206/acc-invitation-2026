@@ -469,7 +469,7 @@
     const party = data.party || {};
     const venues = [
       { key: 'le', label: 'Thánh lễ', name: ev.location, address: ev.mapAddress, code: ev.mapPlusCode, url: ev.mapUrl, embed: ev.mapEmbed },
-      { key: 'tiec', label: party.label || 'Tiệc mừng', name: party.name || 'Sẽ cập nhật', address: party.address || (party.name ? '' : 'Ban Tổ chức sẽ cập nhật địa chỉ quán'), url: party.mapUrl, embed: party.mapEmbed, time: party.time, pending: !party.name }
+      { key: 'tiec', label: party.label || 'Tiệc mừng', name: party.name || 'Sẽ cập nhật', address: party.address || '', url: party.mapUrl, embed: party.mapEmbed, time: party.time, pending: !party.name }
     ];
   %>
   <%
@@ -487,7 +487,6 @@
       <div class="center reveal">
         <div class="eyebrow">Thông tin buổi lễ</div>
         <h2 class="section-title">Chi tiết chương trình</h2>
-        <p class="section-sub">Rất mong được đón tiếp Quý vị</p>
       </div>
 
       <div class="when-wrap reveal">
@@ -536,17 +535,33 @@
               <div class="when-label">Địa điểm Thánh lễ</div>
               <div class="when-value when-place"><%= ev.location %></div>
               <% if (ev.mapAddress) { %><div class="when-note"><%= ev.mapAddress %></div><% } %>
+              <% if (venues[0].url) { %>
+              <a class="when-dir" href="<%= venues[0].url %>" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Chỉ đường
+              </a>
+              <% } else { %>
+              <span class="when-dir is-off">Chỉ đường · sẽ cập nhật</span>
+              <% } %>
             </div>
           </div>
           <div class="when-line" aria-hidden="true"></div>
           <div class="when-item">
             <div class="when-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M12 2v3M16 2v3"/><path d="M4 8h14v4a7 7 0 0 1-14 0z"/><path d="M18 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M3 21h16"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8a2 2 0 0 0 2 2v10"/><path d="M5 2v6a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2"/><path d="M9 2v6"/><path d="M19 22V2c-2.5 0-4 2.5-4 6v5h4"/></svg>
             </div>
             <div>
-              <div class="when-label">Địa điểm <%= venues[1].label.toLowerCase() %><% if (venues[1].time) { %> · <%= venues[1].time %><% } %></div>
+              <div class="when-label">Địa điểm <%= venues[1].label.toLowerCase() %></div>
               <div class="when-value when-place<%= venues[1].pending ? ' is-pending' : '' %>"><%= venues[1].name %></div>
               <% if (venues[1].address) { %><div class="when-note"><%= venues[1].address %></div><% } %>
+              <% if (venues[1].url) { %>
+              <a class="when-dir" href="<%= venues[1].url %>" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Chỉ đường
+              </a>
+              <% } else { %>
+              <span class="when-dir is-off">Chỉ đường · sẽ cập nhật</span>
+              <% } %>
             </div>
           </div>
           <div class="when-actions">
@@ -554,22 +569,6 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M12 14v4M10 16h4"/></svg>
               Lưu vào lịch
             </a>
-            <details class="dir-menu">
-              <summary class="btn-when">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                Chỉ đường
-                <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-              </summary>
-              <div class="dir-list">
-                <% venues.forEach((v) => { %>
-                  <% if (v.url) { %>
-                  <a href="<%= v.url %>" target="_blank" rel="noopener"><b><%= v.label %></b><span><%= v.name %></span></a>
-                  <% } else { %>
-                  <span class="dir-off"><b><%= v.label %></b><span>Sẽ cập nhật</span></span>
-                  <% } %>
-                <% }); %>
-              </div>
-            </details>
           </div>
         </div>
       </div>
@@ -751,7 +750,6 @@
           <ul class="rsvp-points">
             <li><span>✦</span> <%= data.event.dateDisplay %> · <%= data.event.time %></li>
             <li><span>✦</span> <%= data.event.location %></li>
-            <li><span>✦</span> Gửi lại cùng số Zalo để sửa thông tin</li>
           </ul>
         </div>
 
@@ -780,8 +778,8 @@
             <small class="err" data-for="facebook"></small>
           </div>
           <div class="field">
-            <label for="rsvpKhoa">Anh, Chị đã tham gia sinh hoạt hay làm BĐD khóa nào ạ?</label>
-            <textarea id="rsvpKhoa" name="khoa" rows="3" maxlength="300" placeholder="Ví dụ: Sinh hoạt từ 2015–2019, BĐD khóa 2017…"></textarea>
+            <label for="rsvpKhoa">Anh, Chị đã tham gia sinh hoạt hay làm BĐD năm nào ạ?</label>
+            <textarea id="rsvpKhoa" name="khoa" rows="3" maxlength="300" placeholder="Ví dụ: Sinh hoạt từ 2015–2019, BĐD năm 2017…"></textarea>
             <small class="err" data-for="khoa"></small>
           </div>
           <!-- ô bẫy chống spam, người dùng không thấy -->
@@ -816,7 +814,7 @@
       <div class="map-grid">
         <% venues.forEach((v) => { %>
         <div class="map-card reveal">
-          <div class="map-tag"><%= v.label %><% if (v.time) { %> · <%= v.time %><% } %></div>
+          <div class="map-tag"><%= v.label %></div>
           <div class="map-embed">
             <% if (v.embed) { %>
             <iframe src="<%= v.embed %>" title="Bản đồ đến <%= v.name %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
@@ -869,7 +867,7 @@
 </div>
 
 <footer>
-  <strong><%= data.event.organizer %></strong> · Made with Love ❤️
+  <strong><%= data.event.organizer %></strong> · With Love ❤️
 </footer>
 
 <script>

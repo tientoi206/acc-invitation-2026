@@ -21,7 +21,7 @@
     "label": "Tiệc mừng",
     "name": "",
     "address": "",
-    "time": "10:30",
+    "time": "",
     "mapUrl": "",
     "mapEmbed": "",
     "_ghiChu": "Điền tên quán (name), địa chỉ (address). mapUrl = link Google Maps của quán; mapEmbed = link nhúng (Google Maps > Chia sẻ > Nhúng bản đồ > copy phần src). Để trống thì thiệp hiện “Sẽ cập nhật”."
@@ -61,7 +61,7 @@
       "desc": "Lưu lại những khoảnh khắc kỷ niệm và di chuyển đến địa điểm tổ chức tiệc."
     },
     {
-      "time": "10h30",
+      "time": "11h",
       "title": "Có mặt tại quán và bắt đầu tiệc mừng",
       "desc": "Cùng nhau dùng tiệc, giao lưu và chia sẻ niềm vui trong bầu khí thân mật."
     }
@@ -72,7 +72,7 @@
       "Nguyện xin Thiên Chúa luôn đồng hành, để ngày gặp gỡ của chúng ta trở thành một bữa tiệc của tình thân, của niềm vui và của Đức Tin. Cầu mong mỗi bước đi của Gia đình Thánh Linh sẽ mãi in dấu trong hành trình hiệp thông, yêu thương và phục vụ."
     ],
     "signature": "Sinh Viên Công Giáo Thánh Linh",
-    "role": "Ban Tổ chức Lễ Tri Ân ACC 2026"
+    "role": "Lễ Tri Ân ACC 2026"
   },
   "galleryMax": 9,
   "gallery": [

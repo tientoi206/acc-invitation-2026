@@ -19,6 +19,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
+/* Chữ số thẳng hàng (Playfair/Cormorant mặc định dùng số kiểu cổ, lên xuống không đều) */
+html{font-variant-numeric:lining-nums;}
 body{
   font-family:'Be Vietnam Pro',system-ui,sans-serif;
   background:var(--cream);
@@ -404,6 +406,7 @@ body::before{
 }
 
 /* ===================== LAYOUT CHUNG ===================== */
+
 .wrapper{position:relative;z-index:2;}
 section{padding:clamp(64px,10vw,120px) 20px;}
 .container{max-width:1080px;margin:0 auto;}
@@ -418,8 +421,9 @@ section{padding:clamp(64px,10vw,120px) 20px;}
 }
 .eyebrow::before{content:"";width:32px;height:1px;background:var(--green-mid);opacity:.6;}
 /* thêm gạch ngang bên phải (dùng cho dòng nhỏ được căn giữa) */
-.eyebrow.lined::after{content:"";width:32px;height:1px;background:currentColor;opacity:.6;}
-.eyebrow.lined{padding-left:0;}
+.eyebrow.lined::after{content:"";width:32px;height:1px;background:currentColor;opacity:.6;margin-left:-.32em;}
+/* bù khoảng giãn chữ dư sau ký tự cuối để chữ nằm đúng giữa hai gạch */
+.eyebrow.lined{justify-content:center;}
 h2.section-title{
   font-family:'Playfair Display',serif;
   font-weight:700;
@@ -529,7 +533,7 @@ h2.section-title{
 .cal-dow{font-size:.68rem;font-weight:600;letter-spacing:.12em;color:var(--green-mid);padding:6px 0 8px;}
 .cal-dow.sun,.cal-day.sun{color:#c2556f;}
 .cal-day{position:relative;aspect-ratio:1;display:grid;place-items:center;
-  font-size:clamp(.85rem,1.9vw,1rem);color:#3d4f46;font-variant-numeric:tabular-nums;border-radius:50%;}
+  font-size:clamp(.85rem,1.9vw,1rem);color:#3d4f46;font-variant-numeric:lining-nums tabular-nums;border-radius:50%;}
 .cal-day.empty{visibility:hidden;}
 /* ngày diễn ra: vòng vàng vẽ dần + tim đập nhẹ */
 .cal-day.is-event{color:#fff;font-weight:700;}
@@ -602,7 +606,7 @@ h2.section-title{
 .tl-item.right .tl-card::after{left:-7px;border-right:none;border-top:none;}
 .tl-time{
   display:inline-block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;
-  color:var(--gold);letter-spacing:.04em;margin-bottom:6px;font-variant-numeric:tabular-nums;
+  color:var(--gold);letter-spacing:.04em;margin-bottom:6px;font-variant-numeric:lining-nums tabular-nums;
 }
 .tl-title{font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--green-deep);line-height:1.3;}
 .tl-desc{margin-top:6px;font-size:.9rem;line-height:1.6;color:#5b6d64;}
@@ -612,7 +616,7 @@ h2.section-title{
 .cf{position:relative;margin-top:40px;--slide-w:min(620px,54vw);--ratio:1.5;isolation:isolate;}
 .cf-stage{
   position:relative;z-index:1;height:calc(var(--slide-w) / var(--ratio) + 64px);
-  perspective:1400px;outline:none;touch-action:pan-y;user-select:none;cursor:grab;
+  perspective:1400px;outline:none;touch-action:pan-y pinch-zoom;user-select:none;cursor:grab;
 }
 .cf-stage.dragging{cursor:grabbing;}
 .cf-slide{
@@ -694,7 +698,7 @@ h2.section-title{
 .cf.paused .cf-progress span{animation-play-state:paused;}
 @keyframes cfProgress{to{transform:scaleX(1);}}
 .cf-foot{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;gap:20px;margin-top:22px;}
-.cf-count{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-variant-numeric:tabular-nums;color:var(--green);font-size:.95rem;}
+.cf-count{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-variant-numeric:lining-nums tabular-nums;color:var(--green);font-size:.95rem;}
 .cf-count .car-cur{font-size:1.6rem;font-weight:700;color:var(--green-deep);}
 .cf-count i{width:26px;height:1px;background:var(--gold);}
 /* Nút phát / tạm dừng */
@@ -801,7 +805,7 @@ h2.section-title{
 @keyframes lbIn{from{opacity:0;filter:blur(6px);}to{opacity:1;filter:none;}}
 .lb-cap{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--gold-soft);text-align:center;min-height:1.4em;}
 .lb-top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;}
-.lb-count{font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:.12em;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums;}
+.lb-count{font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:.12em;color:rgba(255,255,255,.85);font-variant-numeric:lining-nums tabular-nums;}
 .lb-tools{display:flex;gap:10px;}
 .lb-tool,.lb-btn{border:none;border-radius:50%;display:grid;place-items:center;color:#fff;
   background:rgba(255,255,255,.12);backdrop-filter:blur(6px);transition:background .3s,transform .3s;}
@@ -903,7 +907,7 @@ h2.section-title{
 .countdown-grid{--fw:clamp(64px,15vw,150px);--fh:calc(var(--fw) * 1.12);}
 .flip{
   position:relative;width:var(--fw);height:var(--fh);perspective:520px;
-  font-family:'Playfair Display',serif;font-weight:700;font-variant-numeric:tabular-nums;
+  font-family:'Playfair Display',serif;font-weight:700;font-variant-numeric:lining-nums tabular-nums;
   font-size:calc(var(--fw) * .56);line-height:var(--fh);text-align:center;color:#fff7dc;
   border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 0 1px rgba(232,212,139,.35);
 }
@@ -1092,21 +1096,15 @@ h2.section-title{
 .map-card .map-info{flex:1;}
 @media(max-width:860px){.map-grid{grid-template-columns:1fr;}}
 
-/* Menu "Chỉ đường" 2 địa điểm (phần chi tiết) */
-.dir-menu{position:relative;}
-.dir-menu summary{list-style:none;cursor:pointer;}
-.dir-menu summary::-webkit-details-marker{display:none;}
-.dir-menu .caret{width:14px;height:14px;transition:transform .3s;}
-.dir-menu[open] .caret{transform:rotate(180deg);}
-.dir-list{position:absolute;z-index:20;top:calc(100% + 8px);left:0;min-width:240px;padding:8px;
-  background:#fff;border-radius:16px;border:1px solid rgba(201,162,39,.35);box-shadow:0 18px 40px rgba(27,67,50,.18);
-  animation:dirIn .25s var(--ease);}
-@keyframes dirIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
-.dir-list a,.dir-off{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:10px;text-decoration:none;}
-.dir-list a:hover{background:var(--green-pale);}
-.dir-list b{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
-.dir-list span{font-size:.92rem;color:var(--green-deep);font-weight:500;}
-.dir-off{opacity:.55;}
+/* Nút "Chỉ đường" riêng dưới mỗi địa điểm (phần chi tiết) */
+.when-dir{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:8px 16px;border-radius:999px;
+  font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  color:var(--green-deep);background:#fff;border:1px solid rgba(201,162,39,.55);box-shadow:0 4px 12px rgba(27,67,50,.08);
+  transition:background .25s,color .25s,transform .25s var(--ease);}
+.when-dir svg{width:14px;height:14px;color:var(--gold);transition:color .25s;}
+.when-dir:hover{background:var(--green-deep);color:var(--gold-soft);transform:translateY(-1px);}
+.when-dir:hover svg{color:var(--gold-light);}
+.when-dir.is-off{color:#8a9a91;border-color:#dfe6e2;box-shadow:none;}
 .when-place.is-pending{font-style:italic;font-weight:500;color:#8a9a91;}
 
 /* ===================== 8. LỜI CẢM ƠN ===================== */
@@ -1176,3 +1174,6 @@ footer strong{color:var(--gold-light);font-weight:600;}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
   html{scroll-behavior:auto;}
 }
+
+/* Cắt cứng phần trang trí tràn ra ngoài (khác overflow:hidden: không thể bị cuộn ngang lệch khung) */
+#details,#gallery,#countdown,#thanks,#rsvp,#invitation{overflow:hidden;overflow:clip;}
