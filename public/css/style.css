@@ -444,60 +444,35 @@ h2.section-title{
 .center .section-sub{margin-left:auto;margin-right:auto;}
 
 /* ===================== 1. LỜI MỜI ===================== */
+/* Lời ngỏ trình bày giống Lời cảm ơn: không khung trắng, chữ đặt thẳng trên nền */
 #invitation{
   background:linear-gradient(180deg,var(--cream),var(--green-pale));
-  position:relative;
+  text-align:center;position:relative;
 }
-#invitation::before{
-  content:"";position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(45,106,79,.05) 1px,transparent 1px);
-  background-size:26px 26px;pointer-events:none;
-  -webkit-mask-image:radial-gradient(ellipse at center,black,transparent 78%);
-  mask-image:radial-gradient(ellipse at center,black,transparent 78%);
-}
-.invite-card{
-  position:relative;
-  background:var(--white);
-  border-radius:var(--radius);
-  padding:clamp(36px,6vw,74px);
-  box-shadow:var(--shadow-md);
-  border:1px solid rgba(201,162,39,.18);
-  overflow:hidden;
-}
-.invite-card::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,var(--green-deep),var(--gold),var(--green-mid));
-}
-.invite-card::after{
-  content:"\2740";position:absolute;
-  font-size:clamp(120px,22vw,240px);
-  color:var(--green-pale);
-  right:-30px;bottom:-60px;line-height:1;
-  opacity:.7;pointer-events:none;
-  font-family:'Playfair Display',serif;
-}
-.invite-body{position:relative;z-index:1;text-align:center;max-width:720px;margin:0 auto;}
+.invite-card{position:relative;max-width:760px;margin:0 auto;}
+.invite-body{position:relative;z-index:1;text-align:center;}
 .invite-lead{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.05rem,2.6vw,1.3rem);
-  font-style:italic;color:var(--green);
-  margin-bottom:26px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.75;
+  color:var(--green-deep);margin-bottom:18px;
 }
+/* cùng kiểu chữ với đoạn văn Lời cảm ơn */
 .invite-text{
-  font-size:clamp(.95rem,2vw,1.05rem);
-  color:#40514a;
-  margin-bottom:18px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.08rem,2.6vw,1.32rem);line-height:1.75;
+  color:var(--green-deep);margin-bottom:18px;
 }
 .invite-signature{
-  margin-top:36px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  margin-top:30px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
 }
+/* chữ ký cùng cỡ với Lời cảm ơn */
 .invite-signature .sig-name{
   font-family:'Playfair Display',serif;font-weight:700;
-  color:var(--green-deep);font-size:1.25rem;
+  color:var(--green);font-size:1.1rem;
 }
 .invite-signature .sig-role{
-  font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
 }
 
 /* ===================== 2. CHI TIẾT CHƯƠNG TRÌNH (tờ lịch) ===================== */

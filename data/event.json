@@ -19,12 +19,13 @@
   },
   "party": {
     "label": "Tiệc mừng",
-    "name": "",
-    "address": "",
+    "name": "Nhà hàng Hoàng Long",
+    "address": "Tăng Nhơn Phú, TP. Hồ Chí Minh",
     "time": "",
-    "mapUrl": "",
-    "mapEmbed": "",
-    "_ghiChu": "Điền tên quán (name), địa chỉ (address). mapUrl = link Google Maps của quán; mapEmbed = link nhúng (Google Maps > Chia sẻ > Nhúng bản đồ > copy phần src). Để trống thì thiệp hiện “Sẽ cập nhật”."
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=RQXX%2B69%20T%C4%83ng%20Nh%C6%A1n%20Ph%C3%BA%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam",
+    "mapEmbed": "https://www.google.com/maps?q=RQXX%2B69%20T%C4%83ng%20Nh%C6%A1n%20Ph%C3%BA%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam&z=17&hl=vi&output=embed",
+    "_ghiChu": "name = tên quán, address = địa chỉ hiển thị, plusCode = mã Plus Code. mapUrl = link chỉ đường, mapEmbed = link bản đồ nhúng.",
+    "plusCode": "RQXX+69"
   },
   "features": {
     "musicFile": "",
@@ -62,7 +63,7 @@
     },
     {
       "time": "11h",
-      "title": "Có mặt tại quán và bắt đầu tiệc mừng",
+      "title": "Tiệc mừng và văn nghệ",
       "desc": "Cùng nhau dùng tiệc, giao lưu và chia sẻ niềm vui trong bầu khí thân mật."
     }
   ],

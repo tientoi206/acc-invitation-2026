@@ -437,6 +437,7 @@
       <div class="invite-card reveal">
         <div class="invite-body">
           <div class="eyebrow lined">Lời ngỏ</div>
+          <div class="thanks-ornament">❦</div>
           <p class="invite-lead"><%= data.invitation.lead %></p>
           <% data.invitation.paragraphs.forEach(p => { %>
             <p class="invite-text"><%= p %></p>
@@ -445,6 +446,7 @@
             <span class="sig-name"><%= data.event.organizer %></span>
             <span class="sig-role">Trân trọng kính mời</span>
           </div>
+          <div class="thanks-ornament">✿</div>
         </div>
       </div>
     </div>
@@ -469,7 +471,7 @@
     const party = data.party || {};
     const venues = [
       { key: 'le', label: 'Thánh lễ', name: ev.location, address: ev.mapAddress, code: ev.mapPlusCode, url: ev.mapUrl, embed: ev.mapEmbed },
-      { key: 'tiec', label: party.label || 'Tiệc mừng', name: party.name || 'Sẽ cập nhật', address: party.address || '', url: party.mapUrl, embed: party.mapEmbed, time: party.time, pending: !party.name }
+      { key: 'tiec', label: party.label || 'Tiệc mừng', name: party.name || 'Sẽ cập nhật', address: party.address || '', code: party.plusCode, url: party.mapUrl, embed: party.mapEmbed, time: party.time, pending: !party.name }
     ];
   %>
   <%
