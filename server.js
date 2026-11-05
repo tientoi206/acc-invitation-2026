@@ -174,8 +174,8 @@ app.get('/quan-ly/danh-sach.csv', async (req, res) => {
   if (!checkKey(req, res)) return;
   const rows = await rsvp.list();
   const esc = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
-  const csv = ['Thời gian,Họ tên,Giới tính,Zalo,Facebook,Sinh hoạt / BĐD năm']
-    .concat(rows.map((r) => [new Date(r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }), r.name, r.gender || '', "'" + r.zalo, r.facebook, r.khoa || ''].map(esc).join(',')))
+  const csv = ['Thời gian,Họ tên,Giới tính,Zalo,Số người,Facebook,Sinh hoạt / BĐD năm']
+    .concat(rows.map((r) => [new Date(r.time).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }), r.name, r.gender || '', "'" + r.zalo, r.guests || '', r.facebook, r.khoa || ''].map(esc).join(',')))
     .join('\r\n');
   res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="dang-ky-le-tri-an.csv"', 'Cache-Control': 'no-store' });
   res.send('﻿' + csv); // BOM để Excel đọc đúng tiếng Việt

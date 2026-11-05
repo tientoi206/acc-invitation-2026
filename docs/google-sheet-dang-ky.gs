@@ -14,6 +14,7 @@ const COLS = [
   { key: 'name', title: 'Họ tên' },
   { key: 'gender', title: 'Giới tính' },
   { key: 'zalo', title: 'Zalo' },
+  { key: 'guests', title: 'Số người' },
   { key: 'facebook', title: 'Facebook' },
   { key: 'khoa', title: 'Sinh hoạt / BĐD khóa' },
   { key: 'updatedAt', title: 'Cập nhật lúc' }
@@ -89,6 +90,7 @@ function upsert(sh, col, en) {
     set('name', en.name || '');
     set('gender', en.gender || '');
     set('zalo', zalo);
+    set('guests', en.guests || '');
     set('facebook', en.facebook || '');
     set('khoa', en.khoa || '');
     if (updated) set('updatedAt', new Date());
@@ -112,6 +114,7 @@ function listRows(sh, col) {
     name: String(r[col.name - 1] || ''),
     gender: String(r[col.gender - 1] || ''),
     zalo: disp[i][col.zalo - 1],
+    guests: r[col.guests - 1] === '' ? '' : Number(r[col.guests - 1]) || '',
     facebook: String(r[col.facebook - 1] || ''),
     khoa: String(r[col.khoa - 1] || ''),
     updatedAt: iso(r[col.updatedAt - 1])

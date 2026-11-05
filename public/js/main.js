@@ -654,7 +654,7 @@ function startCountdown() {
   const msg = form.querySelector('.rsvp-msg');
   const KEY = 'leacc-rsvp';
   const fld = (n) => form.querySelector('[name="' + n + '"]');
-  const $name = fld('name'), $zalo = fld('zalo'), $fb = fld('facebook'), $hp = fld('website'), $khoa = fld('khoa');
+  const $name = fld('name'), $zalo = fld('zalo'), $fb = fld('facebook'), $hp = fld('website'), $khoa = fld('khoa'), $guests = fld('guests');
   const genderVal = () => { const g = form.querySelector('[name="gender"]:checked'); return g ? g.value : ''; };
   const setGender = (v) => form.querySelectorAll('[name="gender"]').forEach((r) => { r.checked = r.value === v; });
   // Tên gọi = chữ cuối của họ tên (Nguyễn Văn Khang -> Khang)
@@ -688,6 +688,7 @@ function startCountdown() {
     $zalo.value = saved.zalo || '';
     $fb.value = saved.facebook || '';
     $khoa.value = saved.khoa || '';
+    $guests.value = saved.guests || '';
     setGender(saved.gender || '');
     showDone(saved.name, saved.gender);
   }
@@ -707,11 +708,13 @@ function startCountdown() {
       facebook: $fb.value.trim(),
       gender: genderVal(),
       khoa: $khoa.value.trim(),
+      guests: $guests.value.trim(),
       website: $hp.value
     };
     const errs = {};
     if (data.name.length < 2) errs.name = 'Vui lòng nhập họ tên.';
     if (!data.gender) errs.gender = 'Vui lòng chọn Nam hoặc Nữ.';
+    if (!/^\d+$/.test(data.guests) || +data.guests < 1 || +data.guests > 50) errs.guests = 'Vui lòng điền số người (từ 1 đến 50).';
     if (!/^(\+?84|0)[\d\s.\-]{8,14}$/.test(data.zalo)) errs.zalo = 'Số Zalo chưa đúng (10 số, bắt đầu bằng 0).';
     if (Object.keys(errs).length) return setErrors(errs);
     setErrors({});
@@ -726,7 +729,7 @@ function startCountdown() {
       });
       const out = await res.json().catch(() => ({}));
       if (res.ok && out.ok) {
-        store({ name: data.name, gender: data.gender, zalo: data.zalo, facebook: data.facebook, khoa: data.khoa });
+        store({ name: data.name, gender: data.gender, zalo: data.zalo, guests: data.guests, facebook: data.facebook, khoa: data.khoa });
         showDone(data.name, data.gender);
       } else {
         if (out.errors) setErrors(out.errors);

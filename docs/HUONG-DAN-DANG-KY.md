@@ -59,3 +59,9 @@ Nếu bạn đã cài script từ trước, làm 1 lần:
 
 Script mới tự thêm 2 cột *Giới tính* và *Sinh hoạt / BĐD khóa* vào cuối trang tính `DangKy`,
 dữ liệu cũ vẫn giữ nguyên.
+
+## Cập nhật script lần 2 (thêm câu "tham dự bao nhiêu người")
+
+Làm giống mục trên: dán lại toàn bộ `docs/google-sheet-dang-ky.gs` → 💾 Lưu →
+**Triển khai → Quản lý các bản triển khai → ✏️ → Phiên bản mới → Triển khai**.
+Script tự thêm cột *Số người* vào cuối trang tính `DangKy`.
