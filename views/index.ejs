@@ -8,6 +8,17 @@
 <meta property="og:title" content="<%= data.event.name %> <%= data.event.nameShort %>">
 <meta property="og:description" content="<%= data.event.dateDisplay %> · <%= data.event.time %> · <%= data.event.location %>">
 <meta property="og:type" content="website">
+<!-- Ảnh xem trước khi gửi link (Zalo, Messenger, Facebook): public/images/share/og-cover.jpg (1200×630) -->
+<% if (typeof siteUrl !== 'undefined') { %>
+<meta property="og:url" content="<%= siteUrl %>/">
+<meta property="og:site_name" content="<%= data.event.organizer %>">
+<meta property="og:image" content="<%= siteUrl %>/public/images/share/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="<%= data.event.name %> <%= data.event.nameShort %> — cổng vào thiệp mời">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="<%= siteUrl %>/public/images/share/og-cover.jpg">
+<% } %>
 <% if (typeof favicon !== 'undefined' && favicon) { %>
 <!-- Favicon: tự nhận từ public/images/favicon.* -->
 <link rel="icon" type="<%= favicon.type %>" href="<%= favicon.href %>">

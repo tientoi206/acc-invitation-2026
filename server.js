@@ -106,6 +106,8 @@ app.get('/', (req, res) => {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.render('index', {
     data,
+    // Link gốc đầy đủ (https://ten-mien) cho ảnh xem trước khi chia sẻ link (Zalo/Facebook cần link tuyệt đối)
+    siteUrl: process.env.SITE_URL || ((req.headers['x-forwarded-proto'] || req.protocol) + '://' + req.get('host')),
     gallery: galleryItems(data),
     musicSrc: musicSource(data),
     favicon: faviconInfo(),
